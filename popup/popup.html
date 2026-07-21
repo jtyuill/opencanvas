@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Canvas Palette</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main>
+      <header class="masthead">
+        <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div>
+          <p class="eyebrow">UTK Canvas</p>
+          <h1>Canvas Palette</h1>
+        </div>
+        <label class="switch">
+          <span class="sr-only">Enable theme</span>
+          <input id="enabled" type="checkbox">
+          <span class="switch-track" aria-hidden="true"></span>
+        </label>
+      </header>
+
+      <div class="status-line" aria-live="polite">
+        <span id="status-dot" class="status-dot"></span>
+        <span id="status-text">Loading theme</span>
+      </div>
+      <p id="storage-error" class="storage-error" role="alert" hidden></p>
+
+      <section aria-labelledby="theme-heading">
+        <div class="section-heading">
+          <div>
+            <p class="section-number">01</p>
+            <h2 id="theme-heading">Theme</h2>
+          </div>
+           <select id="palette-select" aria-label="Color palette">
+             <option value="dark">Standard Dark</option>
+             <option value="vol-midnight">Vol Midnight</option>
+             <option value="tokyo-night">Tokyo Night</option>
+             <option value="dracula">Dracula</option>
+             <option value="nord">Nord</option>
+             <option value="gruvbox-dark">Gruvbox Dark</option>
+             <option value="solarized-dark">Solarized Dark</option>
+             <option value="custom">Custom palette</option>
+           </select>
+        </div>
+
+        <div id="preview" class="preview" role="img" aria-label="Palette preview showing navigation, course text, a raised card, and an accent action">
+          <div class="preview-sidebar">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="preview-main">
+            <div class="preview-title"></div>
+            <div class="preview-card">
+              <div></div><div></div><span class="preview-button">Open</span>
+            </div>
+          </div>
+        </div>
+        <p id="contrast" class="contrast" aria-live="polite"></p>
+      </section>
+
+       <section id="custom-section" aria-labelledby="custom-heading" hidden>
+        <div class="section-heading custom-heading">
+          <div>
+            <p class="section-number">02</p>
+            <h2 id="custom-heading">Custom colors</h2>
+          </div>
+          <button id="reset" class="text-button" type="button">Reset</button>
+        </div>
+
+        <div id="color-grid" class="color-grid"></div>
+      </section>
+    </main>
+
+    <script src="../src/palette.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

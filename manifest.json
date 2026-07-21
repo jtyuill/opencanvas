@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Canvas Palette",
+  "version": "0.1.0",
+  "description": "Dark mode and custom color palettes for UTK Canvas.",
+  "permissions": ["storage"],
+  "host_permissions": ["https://utk.instructure.com/*"],
+  "action": {
+    "default_title": "Canvas Palette",
+    "default_popup": "popup/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://utk.instructure.com/*"],
+      "css": ["src/theme.css"],
+      "js": ["src/palette.js", "src/inline-color.js", "src/content.js"],
+      "run_at": "document_start",
+      "all_frames": true,
+      "match_about_blank": true
+    }
+  ]
+}

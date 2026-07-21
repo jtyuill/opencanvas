@@ -1,0 +1,939 @@
+/* Canvas Palette only activates after validated settings are applied by content.js. */
+html[data-canvas-theme="dark"] {
+  color-scheme: dark;
+  background: var(--ct-background);
+
+  --ic-brand-primary: var(--ct-accent);
+  --ic-brand-primary-darkened-5: var(--ct-accent-hover);
+  --ic-brand-primary-darkened-10: var(--ct-accent-hover);
+  --ic-brand-primary-darkened-15: var(--ct-accent-hover);
+  --ic-brand-primary-lightened-5: var(--ct-accent-hover);
+  --ic-brand-primary-lightened-10: var(--ct-accent-hover);
+  --ic-brand-primary-lightened-15: var(--ct-accent-hover);
+  --ic-brand-button--primary-bgd: var(--ct-accent);
+  --ic-brand-button--primary-bgd-darkened-5: var(--ct-accent-hover);
+  --ic-brand-button--primary-bgd-darkened-15: var(--ct-accent-hover);
+  --ic-brand-button--primary-text: var(--ct-accent-text);
+  --ic-brand-button--secondary-bgd: var(--ct-surface-raised);
+  --ic-brand-button--secondary-bgd-darkened-5: var(--ct-border);
+  --ic-brand-button--secondary-bgd-darkened-15: var(--ct-border);
+  --ic-brand-button--secondary-text: var(--ct-text);
+  --ic-brand-font-color-dark: var(--ct-text);
+  --ic-brand-font-color-dark-lightened-15: var(--ct-muted);
+  --ic-brand-font-color-dark-lightened-28: var(--ct-muted);
+  --ic-link-color: var(--ct-accent);
+  --ic-link-color-darkened-10: var(--ct-accent-hover);
+  --ic-link-color-lightened-10: var(--ct-accent-hover);
+  --ic-brand-global-nav-bgd: var(--ct-surface);
+  --ic-brand-global-nav-logo-bgd: var(--ct-surface);
+  --ic-brand-global-nav-ic-icon-svg-fill: var(--ct-text);
+  --ic-brand-global-nav-ic-icon-svg-fill--active: var(--ct-accent);
+  --ic-brand-global-nav-avatar-border: var(--ct-border);
+  --ic-brand-global-nav-menu-item__text-color: var(--ct-text);
+  --ic-brand-global-nav-menu-item__text-color--active: var(--ct-accent);
+  --ic-brand-global-nav-menu-item__badge-bgd: var(--ct-surface-raised);
+  --ic-brand-global-nav-menu-item__badge-text: var(--ct-text);
+  --ic-brand-global-nav-menu-item__badge-bgd--active: var(--ct-accent);
+  --ic-brand-global-nav-menu-item__badge-text--active: var(--ct-accent-text);
+}
+
+html[data-canvas-theme="dark"] body,
+html[data-canvas-theme="dark"] #application,
+html[data-canvas-theme="dark"] #wrapper,
+html[data-canvas-theme="dark"] #main,
+html[data-canvas-theme="dark"] #not_right_side,
+html[data-canvas-theme="dark"] #content-wrapper,
+html[data-canvas-theme="dark"] #content,
+html[data-canvas-theme="dark"] #right-side-wrapper,
+html[data-canvas-theme="dark"] #right-side,
+html[data-canvas-theme="dark"] .ic-Layout-wrapper,
+html[data-canvas-theme="dark"] .ic-Layout-columns,
+html[data-canvas-theme="dark"] .ic-Layout-contentWrapper,
+html[data-canvas-theme="dark"] .ic-Layout-contentMain,
+html[data-canvas-theme="dark"] .ic-app-main-content,
+html[data-canvas-theme="dark"] .ic-app-main-content__secondary {
+  background-color: var(--ct-background) !important;
+  color: var(--ct-text);
+}
+
+html[data-canvas-theme="dark"] #left-side,
+html[data-canvas-theme="dark"] #sticky-container,
+html[data-canvas-theme="dark"] #header.ic-app-header,
+html[data-canvas-theme="dark"] #mobile-header,
+html[data-canvas-theme="dark"] #mobileContextNavContainer,
+html[data-canvas-theme="dark"] .ic-app-course-menu,
+html[data-canvas-theme="dark"] .ic-app-nav-toggle-and-crumbs,
+html[data-canvas-theme="dark"] .ic-app-crumbs,
+html[data-canvas-theme="dark"] #breadcrumbs,
+html[data-canvas-theme="dark"] .header-bar,
+html[data-canvas-theme="dark"] .header-bar.pinned,
+html[data-canvas-theme="dark"] .header-bar.sticky,
+html[data-canvas-theme="dark"] .instui-topnav-container {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text);
+}
+
+html[data-canvas-theme="dark"] #instructure_ajax_error_box > div {
+  background-color: var(--ct-surface-raised) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #content a:not(.Button):not(.btn),
+html[data-canvas-theme="dark"] #right-side a:not(.Button):not(.btn),
+html[data-canvas-theme="dark"] .Button--link,
+html[data-canvas-theme="dark"] .btn-link {
+  color: var(--ct-accent);
+}
+
+html[data-canvas-theme="dark"] #content a:not(.Button):not(.btn):hover,
+html[data-canvas-theme="dark"] #content a:not(.Button):not(.btn):focus-visible,
+html[data-canvas-theme="dark"] #right-side a:not(.Button):not(.btn):hover,
+html[data-canvas-theme="dark"] #right-side a:not(.Button):not(.btn):focus-visible,
+html[data-canvas-theme="dark"] .Button--link:hover,
+html[data-canvas-theme="dark"] .btn-link:hover {
+  color: var(--ct-accent-hover);
+}
+
+html[data-canvas-theme="dark"] :focus-visible {
+  outline-color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] #breadcrumbs a,
+html[data-canvas-theme="dark"] #breadcrumbs .icon-home::before {
+  color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] #breadcrumbs [aria-current="page"],
+html[data-canvas-theme="dark"] #breadcrumbs [aria-current="page"] a {
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #section-tabs a {
+  background-color: transparent !important;
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] #section-tabs a:hover,
+html[data-canvas-theme="dark"] #section-tabs a:focus-visible,
+html[data-canvas-theme="dark"] #section-tabs a.active,
+html[data-canvas-theme="dark"] #section-tabs a[aria-current="page"] {
+  background-color: var(--ct-accent-soft) !important;
+  color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] .ic-app-header__menu-list-item--active .ic-app-header__menu-list-link,
+html[data-canvas-theme="dark"] [id$="-tray"][data-selected="true"]:is(:hover, :focus) {
+  background-color: var(--ct-surface-raised) !important;
+  color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] h1,
+html[data-canvas-theme="dark"] h2,
+html[data-canvas-theme="dark"] h3,
+html[data-canvas-theme="dark"] h4,
+html[data-canvas-theme="dark"] h5,
+html[data-canvas-theme="dark"] h6,
+html[data-canvas-theme="dark"] legend,
+html[data-canvas-theme="dark"] label,
+html[data-canvas-theme="dark"] .title,
+html[data-canvas-theme="dark"] .header-bar,
+html[data-canvas-theme="dark"] .header-bar-right,
+html[data-canvas-theme="dark"] .description,
+html[data-canvas-theme="dark"] .discussion_entry {
+  color: var(--ct-text);
+}
+
+html[data-canvas-theme="dark"] .muted,
+html[data-canvas-theme="dark"] .text-muted,
+html[data-canvas-theme="dark"] .secondary,
+html[data-canvas-theme="dark"] .subtitle,
+html[data-canvas-theme="dark"] .due_at,
+html[data-canvas-theme="dark"] .points_possible,
+html[data-canvas-theme="dark"] .ig-details,
+html[data-canvas-theme="dark"] .ic-DashboardCard__header-subtitle,
+html[data-canvas-theme="dark"] .ic-DashboardCard__header-term {
+  color: var(--ct-muted) !important;
+}
+
+/* Dashboard cards */
+html[data-canvas-theme="dark"] .ic-DashboardCard,
+html[data-canvas-theme="dark"] .ic-DashboardCard__header,
+html[data-canvas-theme="dark"] .ic-DashboardCard__box,
+html[data-canvas-theme="dark"] .ic-DashboardCard__action-container,
+html[data-canvas-theme="dark"] .ic-DashboardCard__header_content,
+html[data-canvas-theme="dark"] .PlannerItem-styles__root,
+html[data-canvas-theme="dark"] .Grouping-styles__title {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .ic-Dashboard-header__layout {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .PlannerItem-styles__root :is(p, span, time) {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] .PlannerItem-styles__root a {
+  color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] .ic-DashboardCard:hover,
+html[data-canvas-theme="dark"] .ic-DashboardCard:focus-within {
+  box-shadow: 0 0 0 1px var(--ct-accent), 0 8px 24px rgb(0 0 0 / 28%);
+}
+
+/* Modules, assignments, announcements, discussions, and grade rows */
+html[data-canvas-theme="dark"] .item-group-container,
+html[data-canvas-theme="dark"] .item-group-condensed,
+html[data-canvas-theme="dark"] .context_module,
+html[data-canvas-theme="dark"] .ig-header,
+html[data-canvas-theme="dark"] .ig-row,
+html[data-canvas-theme="dark"] .assignment-list,
+html[data-canvas-theme="dark"] .assignment_group,
+html[data-canvas-theme="dark"] .discussion-entries,
+html[data-canvas-theme="dark"] .discussion_entry,
+html[data-canvas-theme="dark"] .ic-announcement-row,
+html[data-canvas-theme="dark"] .gradebook-cell,
+html[data-canvas-theme="dark"] .grading-periods-selector,
+html[data-canvas-theme="dark"] .pages.show .show-content,
+html[data-canvas-theme="dark"] body.pages.index .collectionView,
+html[data-canvas-theme="dark"] body.pages.index .index-content-container,
+html[data-canvas-theme="dark"] body.pages.index .index-content,
+html[data-canvas-theme="dark"] #course_syllabus,
+html[data-canvas-theme="dark"] #rubrics,
+html[data-canvas-theme="dark"] .rubric_container,
+html[data-canvas-theme="dark"] .react_rubric_container,
+html[data-canvas-theme="dark"] .react-rubric {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text);
+}
+
+html[data-canvas-theme="dark"] .ig-header,
+html[data-canvas-theme="dark"] .header-bar,
+html[data-canvas-theme="dark"] .rubric_title,
+html[data-canvas-theme="dark"] .rubric-criterion,
+html[data-canvas-theme="dark"] .module-sequence-footer,
+html[data-canvas-theme="dark"] .module-sequence-footer-content {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+}
+
+html[data-canvas-theme="dark"] .ig-row:hover,
+html[data-canvas-theme="dark"] .discussion_entry:hover,
+html[data-canvas-theme="dark"] .rosterUser:hover {
+  background-color: var(--ct-surface-raised) !important;
+}
+
+/* Canvas tables. Rich-content tables are intentionally left author-controlled. */
+html[data-canvas-theme="dark"] .table,
+html[data-canvas-theme="dark"] .ic-Table {
+  background-color: var(--ct-surface);
+  color: var(--ct-text);
+}
+
+html[data-canvas-theme="dark"] .table > tbody > tr > :is(th, td),
+html[data-canvas-theme="dark"] .ic-Table > tbody > tr > :is(th, td) {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text);
+}
+
+html[data-canvas-theme="dark"] .table > thead > tr > :is(th, td),
+html[data-canvas-theme="dark"] .ic-Table > thead > tr > :is(th, td),
+html[data-canvas-theme="dark"] .table.table-striped > tbody > tr:nth-child(odd) > :is(th, td),
+html[data-canvas-theme="dark"] .ic-Table.ic-Table--striped > tbody > tr:nth-child(odd) > :is(th, td) {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text);
+}
+
+html[data-canvas-theme="dark"] .table.table-hover > tbody > tr:hover > :is(th, td),
+html[data-canvas-theme="dark"] .ic-Table.ic-Table--hover-row > tbody > tr:hover > :is(th, td) {
+  background-color: var(--ct-surface-raised) !important;
+}
+
+/* Pages index */
+html[data-canvas-theme="dark"] body.pages.index .wiki-page-table > tbody > tr.clickable:hover > td,
+html[data-canvas-theme="dark"] .pages-mobile-header li.selected {
+  background-color: var(--ct-accent-soft) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .pages.show .page-title {
+  color: var(--ct-text) !important;
+}
+
+/* Modules */
+html[data-canvas-theme="dark"] #context_modules .ig-header .name,
+html[data-canvas-theme="dark"] #context_modules .ig-header-title,
+html[data-canvas-theme="dark"] body.modules .module-item-title,
+html[data-canvas-theme="dark"] .context_modules2 .module-item-title {
+  color: var(--ct-text) !important;
+  text-shadow: none !important;
+}
+
+html[data-canvas-theme="dark"] .ig-header :is(.name, .ig-header-title) {
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #context_modules .ig-row :is(a.ig-title, .locked_title) {
+  color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] #context_modules :is(.ig-details, .ig-details__item, .due_date_display, .points_possible_display, .completion_requirement, .footer) {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] #context_modules .complete_icon { color: var(--ct-success) !important; }
+html[data-canvas-theme="dark"] #context_modules .in_progress_icon { color: var(--ct-warning) !important; }
+html[data-canvas-theme="dark"] #context_modules .locked_icon { color: var(--ct-muted) !important; }
+
+html[data-canvas-theme="dark"] .item-group-condensed .item-group-expandable,
+html[data-canvas-theme="dark"] .context_modules2 table tbody,
+html[data-canvas-theme="dark"] body.modules tr.ui-sortable-helper {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text);
+}
+
+html[data-canvas-theme="dark"] .item-group-condensed .item-group-expandable .ig-sublist {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  box-shadow: none;
+}
+
+/* Syllabus and course sidebar */
+html[data-canvas-theme="dark"] #announcements_on_home_page .ic-item-row {
+  box-shadow: 0 -1px var(--ct-border), inset 0 -1px var(--ct-border) !important;
+}
+
+html[data-canvas-theme="dark"] #syllabus tr.date.date_passed > :is(th, td),
+html[data-canvas-theme="dark"] #syllabus tr.detail_list > :is(th, td) {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text);
+}
+
+html[data-canvas-theme="dark"] #syllabus tr.date:is(.related, .selected) > :is(th, td),
+html[data-canvas-theme="dark"] #syllabus tr.detail_list.related_event > :is(th, td) {
+  background-color: var(--ct-accent-soft) !important;
+}
+
+html[data-canvas-theme="dark"] #syllabus tr.date.date_passed.details,
+html[data-canvas-theme="dark"] #syllabus .special_date_title {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] #right-side .mini_calendar .day {
+  background: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #right-side .mini_calendar .day.has_event {
+  background: var(--ct-surface-raised) !important;
+}
+
+html[data-canvas-theme="dark"] #right-side .mini_calendar .day:is(.today, .related, :hover) {
+  background: var(--ct-accent-soft) !important;
+  background-image: none !important;
+}
+
+html[data-canvas-theme="dark"] #right-side .mini_calendar .day.other_month {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] #right-side .mini_calendar .day a {
+  color: inherit !important;
+}
+
+html[data-canvas-theme="dark"] #right-side .events_list :is(.event-details, .todo-details)::after {
+  background: linear-gradient(to right, transparent, var(--ct-background) 80%) !important;
+}
+
+html[data-canvas-theme="dark"] [data-ct-inline-color-repair] {
+  color: var(--ct-text) !important;
+}
+
+/* Student grades and rubrics */
+html[data-canvas-theme="dark"] #grades_summary tr.student_assignment > :is(th, td),
+html[data-canvas-theme="dark"] #grades_summary tr.comments > td,
+html[data-canvas-theme="dark"] #student-grades-right-content table.summary :is(td, tbody th) {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text);
+}
+
+html[data-canvas-theme="dark"] #grades_summary a:is(.toggle_comments_link, .toggle_score_details_link, .toggle_rubric_assessments_link) {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] #grades_summary th.title .context,
+html[data-canvas-theme="dark"] #grades_summary tr.student_assignment:is(.dropped, .excused) > :is(th, td) {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] .react-rubric table,
+html[data-canvas-theme="dark"] .react-rubric tbody,
+html[data-canvas-theme="dark"] .react-rubric [data-testid="rubric-criterion"] {
+  background-color: var(--ct-surface) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .react-rubric tbody > tr > :is(th, td) {
+  background-color: var(--ct-surface) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .react-rubric thead,
+html[data-canvas-theme="dark"] .react-rubric thead > tr > th,
+html[data-canvas-theme="dark"] .react-rubric th.rubric-title {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .react-rubric :is(td, th, .rating-tier) {
+  border-color: var(--ct-border) !important;
+}
+
+html[data-canvas-theme="dark"] .react-rubric .rating-tier {
+  background-color: var(--ct-surface-raised) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .react-rubric .rating-tier.assessing:hover,
+html[data-canvas-theme="dark"] .react-rubric .rating-tier.selected,
+html[data-canvas-theme="dark"] .selected-assignment {
+  background-color: var(--ct-accent-soft) !important;
+}
+
+/* Forms and legacy Canvas controls */
+html[data-canvas-theme="dark"] input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
+html[data-canvas-theme="dark"] textarea,
+html[data-canvas-theme="dark"] select,
+html[data-canvas-theme="dark"] .CodeMirror,
+html[data-canvas-theme="dark"] .tox-toolbar,
+html[data-canvas-theme="dark"] .tox-toolbar__primary,
+html[data-canvas-theme="dark"] .tox-edit-area,
+html[data-canvas-theme="dark"] .tox-statusbar {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] input::placeholder,
+html[data-canvas-theme="dark"] textarea::placeholder {
+  color: var(--ct-muted);
+  opacity: 1;
+}
+
+html[data-canvas-theme="dark"] #GradeSummarySelectMenuGroup [data-cid~="Select"] [data-position-target],
+html[data-canvas-theme="dark"] #GradeSummarySelectMenuGroup [data-cid~="Select"] [data-position-target] > span {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .Button,
+html[data-canvas-theme="dark"] .btn,
+html[data-canvas-theme="dark"] button.ui-button {
+  background: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .Button:hover,
+html[data-canvas-theme="dark"] .btn:hover,
+html[data-canvas-theme="dark"] button.ui-button:hover {
+  background: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(#content, #right-side) :is(.Button, .btn) {
+  background-color: var(--ct-surface-raised) !important;
+  background-image: none !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(#content, #right-side) :is(.Button, .btn):is(:hover, :focus-visible) {
+  background-color: var(--ct-border) !important;
+}
+
+html[data-canvas-theme="dark"] .Button--primary,
+html[data-canvas-theme="dark"] .btn-primary,
+html[data-canvas-theme="dark"] button[type="submit"].Button {
+  background: var(--ct-accent) !important;
+  border-color: var(--ct-accent) !important;
+  color: var(--ct-accent-text) !important;
+}
+
+html[data-canvas-theme="dark"] .Button--primary:hover,
+html[data-canvas-theme="dark"] .btn-primary:hover,
+html[data-canvas-theme="dark"] button[type="submit"].Button:hover {
+  background: var(--ct-accent-hover) !important;
+  border-color: var(--ct-accent-hover) !important;
+  color: var(--ct-accent-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(#content, #right-side) :is(.Button--primary, .btn-primary, button[type="submit"].Button) {
+  background-color: var(--ct-accent) !important;
+  border-color: var(--ct-accent) !important;
+  color: var(--ct-accent-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(#content, #right-side) :is(.Button--primary, .btn-primary, button[type="submit"].Button):hover {
+  background-color: var(--ct-accent-hover) !important;
+  border-color: var(--ct-accent-hover) !important;
+}
+
+html[data-canvas-theme="dark"] :disabled,
+html[data-canvas-theme="dark"] .disabled {
+  opacity: 0.58;
+}
+
+html[data-canvas-theme="dark"] :is(input[type="checkbox"], input[type="radio"], input[type="range"]) {
+  accent-color: var(--ct-accent);
+}
+
+/* Dialogs, menus, popovers, and trays rendered in portals */
+html[data-canvas-theme="dark"] [role="dialog"],
+html[data-canvas-theme="dark"] [role="menu"],
+html[data-canvas-theme="dark"] [role="listbox"],
+html[data-canvas-theme="dark"] [role="tooltip"],
+html[data-canvas-theme="dark"] .ui-dialog,
+html[data-canvas-theme="dark"] .ui-dialog-titlebar,
+html[data-canvas-theme="dark"] .ui-widget-content,
+html[data-canvas-theme="dark"] .ui-menu,
+html[data-canvas-theme="dark"] .ui-datepicker,
+html[data-canvas-theme="dark"] .popover,
+html[data-canvas-theme="dark"] .popover-title,
+html[data-canvas-theme="dark"] .dropdown-menu,
+html[data-canvas-theme="dark"] .al-options,
+html[data-canvas-theme="dark"] .tooltip_text,
+html[data-canvas-theme="dark"] .ReactModal__Content,
+html[data-canvas-theme="dark"] #wizard_box,
+html[data-canvas-theme="dark"] .wizard_content {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] [role="menuitem"]:hover,
+html[data-canvas-theme="dark"] [role="option"]:hover,
+html[data-canvas-theme="dark"] [role="option"][aria-selected="true"],
+html[data-canvas-theme="dark"] .ui-menu-item:hover,
+html[data-canvas-theme="dark"] .dropdown-menu > li > a:hover,
+html[data-canvas-theme="dark"] .al-options > li > a:hover {
+  background-color: var(--ct-accent-soft) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .ui-widget-overlay,
+html[data-canvas-theme="dark"] .ReactModal__Overlay {
+  background: rgb(0 0 0 / 68%) !important;
+}
+
+html[data-canvas-theme="dark"] .ReactModal__Content--canvas .ReactModal__Header,
+html[data-canvas-theme="dark"] .ReactModal__Content--canvas .ReactModal__Footer,
+html[data-canvas-theme="dark"] .sticky-footer,
+html[data-canvas-theme="dark"] .form-actions,
+html[data-canvas-theme="dark"] .form-dialog .form-controls,
+html[data-canvas-theme="dark"] .ic-Form-actions {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text);
+}
+
+html[data-canvas-theme="dark"] .ReactModal__Content--canvas .ReactModal__Body {
+  background-color: var(--ct-surface) !important;
+  color: var(--ct-text) !important;
+}
+
+/* Canvas notices retain semantic color rather than becoming neutral gray. */
+html[data-canvas-theme="dark"] .alert,
+html[data-canvas-theme="dark"] .ic-notification,
+html[data-canvas-theme="dark"] .ic-notification__content,
+html[data-canvas-theme="dark"] .ic-flash-info,
+html[data-canvas-theme="dark"] .ic-flash-success,
+html[data-canvas-theme="dark"] .ic-flash-warning,
+html[data-canvas-theme="dark"] .ic-flash-error {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .alert-error,
+html[data-canvas-theme="dark"] .alert-danger,
+html[data-canvas-theme="dark"] .ic-notification--error,
+html[data-canvas-theme="dark"] .ic-flash-error {
+  background-color: var(--ct-danger-soft) !important;
+  border-color: var(--ct-danger) !important;
+}
+
+html[data-canvas-theme="dark"] .alert-success,
+html[data-canvas-theme="dark"] .ic-notification--success,
+html[data-canvas-theme="dark"] .ic-flash-success {
+  background-color: var(--ct-success-soft) !important;
+  border-color: var(--ct-success) !important;
+}
+
+html[data-canvas-theme="dark"] .alert-warning,
+html[data-canvas-theme="dark"] .ic-notification--warning,
+html[data-canvas-theme="dark"] .ic-flash-warning {
+  background-color: var(--ct-warning-soft) !important;
+  border-color: var(--ct-warning) !important;
+}
+
+/* Shell, mobile navigation, and stable InstUI controls */
+html[data-canvas-theme="dark"] #mobileContextNavContainer,
+html[data-canvas-theme="dark"] #mobileContextNavContainer > div {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #mobile-header .mobile-header-title,
+html[data-canvas-theme="dark"] .ic-app-header__menu-list-link {
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #mobile-header .Button--icon-action-rev,
+html[data-canvas-theme="dark"] .ic-app-course-nav-toggle {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #mobile-header .Button--icon-action-rev:is(:hover, :focus-visible),
+html[data-canvas-theme="dark"] .ic-app-header__menu-list-link:is(:hover, :focus-visible),
+html[data-canvas-theme="dark"] .ic-app-header__menu-list-item--active .ic-app-header__menu-list-link {
+  background-color: var(--ct-surface-raised) !important;
+  color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] .ic-app-header__menu-list-link :is(.ic-icon-svg, .menu-item__icon),
+html[data-canvas-theme="dark"] [data-cid~="BaseButton"] [data-cid~="InlineSVG"] {
+  color: inherit !important;
+  fill: currentColor !important;
+}
+
+html[data-canvas-theme="dark"] :is(.ic-app-header__menu-list-link, #mobile-header) .menu-item__badge,
+html[data-canvas-theme="dark"] #section-tabs .nav-badge {
+  background-color: var(--ct-surface-raised) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #section-tabs a:is(.active, [aria-current="page"]) .nav-badge {
+  background-color: var(--ct-accent) !important;
+  color: var(--ct-accent-text) !important;
+}
+
+html[data-canvas-theme="dark"] [data-cid~="BaseButton"] {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] [data-cid~="BaseButton"]:is(:hover, :focus-visible) {
+  background-color: var(--ct-border) !important;
+}
+
+html[data-canvas-theme="dark"] [data-cid~="BaseButton"] :is([fill="#000000"], [fill="#000"]) {
+  fill: currentColor !important;
+}
+
+html[data-canvas-theme="dark"] :is([data-cid~="Select"], label[data-cid~="TextInput"]) [data-position-target],
+html[data-canvas-theme="dark"] :is([data-cid~="Select"], label[data-cid~="TextInput"]) [data-position-target] > span {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(input[data-cid~="SimpleSelect"], input[role="combobox"]) {
+  background-color: transparent !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] [data-cid~="TextInput"] [class*="textInput__facade"],
+html[data-canvas-theme="dark"] [data-cid~="BaseButton"] [class*="baseButton__content"] {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] [data-cid~="Heading"] {
+  color: var(--ct-text);
+}
+
+/* Course home announcements and sidebar */
+html[data-canvas-theme="dark"] #announcements_on_home_page > section {
+  background-color: var(--ct-surface) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .ic-announcement-row .ic-item-row__content-link {
+  color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] .ic-announcement-row :is(.ic-item-row__meta-content, .ic-item-row__meta-content-heading, .ic-item-row__meta-content-timestamp) {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] :is(#course_show_secondary, #sidebar_content, .Sidebar__TodoListContainer, .ToDoSidebarItem) {
+  background-color: transparent !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .Sidebar__TodoListContainer [data-cid~="ListItem"] {
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+/* Modules and Pages index internals */
+html[data-canvas-theme="dark"] #context_modules :is(.context_module > .content, .context_module_items, .ig-list) {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #context_modules .ig-row {
+  box-shadow: inset 0 -1px var(--ct-border) !important;
+}
+
+html[data-canvas-theme="dark"] #context_modules :is(.type_icon, .ig-type-icon, .module_item_icons, .module-item-status-icon) {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] #context_modules .context_module > .footer {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] body.pages.index :is(.header-bar-outer-container, .sticky-toolbar-with-right-side, .pages-mobile-header) {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] body.pages.index .wiki-page-table .clickable:is(:hover, :focus-within) > td {
+  background-color: var(--ct-surface-raised) !important;
+}
+
+/* Modern Discussions containers and empty states */
+html[data-canvas-theme="dark"] :is([data-testid="discussion-connected-container"], .unpinned-discussions-v2__wrapper, .pinned-discussions-v2__wrapper, .closed-for-comments-discussions-v2__wrapper, .discussions-v2__container-image) {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .discussions-v2__container-image :is(p, span) {
+  color: var(--ct-text) !important;
+}
+
+/* Student grades, totals, score details, and What-If controls */
+html[data-canvas-theme="dark"] #grades_summary > thead > tr > th,
+html[data-canvas-theme="dark"] #grades_summary tr.student_assignment:is(.hard_coded, .final_grade) > :is(th, td),
+html[data-canvas-theme="dark"] #grades_summary tr:is(.comments, .rubric_assessments) > td {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #grades_summary tr.student_assignment[data-muted="true"] > :is(th, td) {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] #grades_summary :is(.assignment_score, .score_holder, .grade, .possible, .points_possible) {
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #grade_entry {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-accent) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #student-grades-right-content,
+html[data-canvas-theme="dark"] #only_consider_graded_assignments_wrapper {
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #student-grades-right-content > .student_assignment.final_grade,
+html[data-canvas-theme="dark"] #student-grades-right-content table.summary > thead > tr > th {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #student-grades-right-content table.summary > tbody > tr > :is(th, td) {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #grades_summary .grade-distribution-graph :is(text, line) {
+  color: var(--ct-muted) !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+/* Calendar, inbox, account, and settings routes */
+html[data-canvas-theme="dark"] :is(#calendar-app, .calendar, .fc-view, .fc-list, .conversations, .message-list, .conversation, .compose-message-dialog, .profile_table, .ui-tabs-panel) {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(.fc-toolbar, .fc-scrollgrid, .fc-theme-standard td, .fc-theme-standard th, .conversations .panel, .message-list .message-item, .ui-tabs-nav) {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(.fc-day-today, .message-list .message-item.active, .conversation.selected) {
+  background-color: var(--ct-accent-soft) !important;
+}
+
+html[data-canvas-theme="dark"] .fc-event {
+  border-color: var(--ct-accent) !important;
+  background-color: var(--ct-surface-raised) !important;
+  color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] :is(.fc-body, .fc-unthemed .fc-view, .fc-unthemed .fc-day, .fc-unthemed .fc-day-top) {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .fc-unthemed :is(.fc-today, .fc-highlight) {
+  background-color: var(--ct-accent-soft) !important;
+}
+
+html[data-canvas-theme="dark"] .fc-unthemed :is(.fc-day-number, .fc-axis) {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] :is(#minical, #calendar-list-holder, #other-calendars-list-holder) {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #minical :is(a, span) {
+  color: inherit !important;
+}
+
+/* Inbox and account settings */
+html[data-canvas-theme="dark"] [data-testid="tool-bar"] {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] tr.access_token > td,
+html[data-canvas-theme="dark"] tr.access_token tr > td {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #content table:has([data-testid="ff-table-row"]),
+html[data-canvas-theme="dark"] #content table:has([data-testid="ff-table-row"]) :is(thead, tbody, tr, th, td) {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+/* Portal interiors, loaders, and empty states */
+html[data-canvas-theme="dark"] :is(#global_nav_tray_container, #StudentTray__Container, #GradeSummarySubmissionCommentsTray, #react-router-portals) :is([role="dialog"], [data-cid~="Modal"], [data-cid~="Tray"]),
+html[data-canvas-theme="dark"] .ui-dialog .ui-dialog-content {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+  color-scheme: dark;
+}
+
+html[data-canvas-theme="dark"] :is([role="dialog"], [data-cid~="Modal"], [data-cid~="Tray"]) :is([data-cid~="ModalHeader"], [data-cid~="ModalFooter"], [data-cid~="TrayHeader"], [data-cid~="TrayFooter"]),
+html[data-canvas-theme="dark"] .ui-dialog :is(.ui-dialog-buttonpane, .button-container) {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is([role="menuitem"], [role="option"], .ui-menu-item, .dropdown-menu > li > a, .al-options > li > a) {
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #keyboard_navigation,
+html[data-canvas-theme="dark"] #keyboard_navigation .keycode,
+html[data-canvas-theme="dark"] .paginatedLoadingIndicator,
+html[data-canvas-theme="dark"] :is(#no_context_modules_message, .ic-EmptyState, .EmptyState, .empty-state) {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] [data-cid~="Spinner"] {
+  color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] [data-cid~="Spinner"] circle:first-of-type { stroke: var(--ct-border) !important; }
+html[data-canvas-theme="dark"] [data-cid~="Spinner"] circle:last-of-type { stroke: var(--ct-accent) !important; }
+
+/* Course media keeps its original rendering; the theme never uses inversion. */
+html[data-canvas-theme="dark"] .ic-DashboardCard__header_hero {
+  forced-color-adjust: none;
+}
+
+@media print {
+  html[data-canvas-theme="dark"],
+  html[data-canvas-theme="dark"] body,
+  html[data-canvas-theme="dark"] #application,
+  html[data-canvas-theme="dark"] #content,
+  html[data-canvas-theme="dark"] #content .table,
+  html[data-canvas-theme="dark"] #content .ic-Table,
+  html[data-canvas-theme="dark"] #content .table :is(th, td),
+  html[data-canvas-theme="dark"] #content .ic-Table :is(th, td),
+  html[data-canvas-theme="dark"] #context_modules :is(.ig-header, .ig-row),
+  html[data-canvas-theme="dark"] .react-rubric :is(table, thead, tbody, tr, th, td) {
+    background: #ffffff !important;
+    color: #000000 !important;
+    color-scheme: light;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-canvas-theme="dark"] {
+    scroll-behavior: auto !important;
+  }
+
+  html[data-canvas-theme="dark"] :is(.ui-dialog, .ReactModal__Content, [data-cid~="Transition"]) {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+@media (forced-colors: active) {
+  html[data-canvas-theme="dark"] {
+    color-scheme: light dark;
+  }
+
+  html[data-canvas-theme="dark"] :focus-visible {
+    outline: 2px solid Highlight !important;
+  }
+}

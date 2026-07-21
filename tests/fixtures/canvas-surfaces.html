@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <body>
+    <div id="application" class="ic-app">
+      <header id="header" class="ic-app-header">
+        <a class="ic-app-header__menu-list-item--active ic-app-header__menu-list-link">Courses</a>
+      </header>
+      <header id="mobile-header"><span class="mobile-header-title">Course</span></header>
+      <nav id="mobileContextNavContainer"></nav>
+      <nav id="left-side" class="ic-app-course-menu"></nav>
+      <div id="wrapper" class="ic-Layout-wrapper">
+        <div class="ic-app-nav-toggle-and-crumbs"><nav id="breadcrumbs"><ol><li aria-current="page">Course</li></ol></nav></div>
+        <div id="main" class="ic-Layout-columns">
+          <main id="content" class="ic-Layout-contentMain">
+            <nav><ul id="section-tabs"><li><a class="active" aria-current="page">Modules</a></li></ul></nav>
+            <article class="ic-DashboardCard"><div class="ic-DashboardCard__header"></div></article>
+            <section id="context_modules" class="item-group-container"><div class="item-group-condensed context_module"><header class="ig-header"><span class="name"></span></header><div class="ig-row"><span class="due_date_display"></span></div></div></section>
+            <article class="discussion_entry"></article>
+            <section id="announcements_on_home_page"><article class="ic-announcement-row"><h3 data-cid="Heading">Announcement</h3></article></section>
+            <div id="course_syllabus" class="user_content"><p>Instructor content</p></div>
+            <table id="syllabus" class="ic-Table"><thead><tr><th>Assignment</th></tr></thead><tbody><tr class="date date_passed"><td>Essay</td></tr></tbody></table>
+            <table class="ic-Table ic-Table--striped ic-Table--hover-row wiki-page-table"><thead><tr><th>Page</th></tr></thead><tbody><tr class="clickable"><td>Notes</td></tr></tbody></table>
+            <table id="grades_summary" class="ic-Table ic-Table--grades-summary-table"><tbody><tr class="student_assignment"><th class="title">Homework</th><td>10</td></tr></tbody></table>
+            <div class="react_rubric_container"><div class="react-rubric"><table><tbody><tr data-testid="rubric-criterion"><th>Criteria</th><td><div class="rating-tier selected"></div></td></tr></tbody></table></div></div>
+            <form><input type="text"><textarea></textarea><select><option>One</option></select><button class="Button Button--primary">Submit</button></form>
+            <button data-cid="BaseButton Button">Open</button>
+            <div data-cid="Spinner"><svg><circle></circle><circle></circle></svg></div>
+            <div class="ic-notification ic-notification--warning"></div>
+            <div id="calendar-app"><div class="fc-view"></div></div>
+            <div class="conversations"><div class="message-list"><article class="message-item"></article></div></div>
+          </main>
+        </div>
+      </div>
+    </div>
+    <div role="dialog"><div role="menu"><button role="menuitem">Action</button></div><div role="tooltip"></div><ul class="al-options"></ul></div>
+  </body>
+</html>
