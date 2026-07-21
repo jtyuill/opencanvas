@@ -2,6 +2,7 @@
   "use strict";
 
   const api = globalThis.CanvasPalette;
+  const siteApi = globalThis.OpenCanvasSite;
   const labels = {
     background: "Page",
     surface: "Surface",
@@ -22,6 +23,9 @@
   const resetButton = document.querySelector("#reset");
   const customSection = document.querySelector("#custom-section");
   const storageError = document.querySelector("#storage-error");
+  const siteForm = document.querySelector("#site-form");
+  const schoolInput = document.querySelector("#school-url");
+  const connectButton = document.querySelector("#connect-site");
   let settings = api.normalizeSettings(api.DEFAULT_SETTINGS);
   let persistedSettings = settings;
   let tabStatus = "checking";
@@ -97,13 +101,19 @@
       active: "Active on this Canvas tab",
       paused: "Theme paused on this Canvas tab",
       unavailable: "Unavailable on this tab",
-      checking: "Checking active tab"
+      checking: "Checking active tab",
+      unconfigured: "Choose your Canvas site"
     };
     statusDot.classList.toggle("active", tabStatus === "active");
     statusText.textContent = messages[tabStatus];
   }
 
   function refreshActiveTabStatus() {
+    if (!settings.schoolBaseUrl) {
+      tabStatus = "unconfigured";
+      renderStatus();
+      return;
+    }
     tabStatus = "checking";
     renderStatus();
     if (!chrome.tabs) {
@@ -117,7 +127,7 @@
         renderStatus();
         return;
       }
-      chrome.tabs.sendMessage(tabs[0].id, { type: "canvas-palette:get-status" }, { frameId: 0 }, (response) => {
+      chrome.tabs.sendMessage(tabs[0].id, { type: "opencanvas:get-status" }, { frameId: 0 }, (response) => {
         if (chrome.runtime.lastError || !response || !response.available) tabStatus = "unavailable";
         else tabStatus = response.active ? "active" : "paused";
         renderStatus();
@@ -130,6 +140,8 @@
     enabledInput.checked = settings.enabled;
     paletteSelect.value = settings.selectedPalette;
     customSection.hidden = settings.selectedPalette !== "custom";
+    schoolInput.value = settings.schoolBaseUrl;
+    connectButton.textContent = settings.schoolBaseUrl ? "Update" : "Connect";
 
     colorGrid.querySelectorAll("[data-color-key]").forEach((input) => {
       const key = input.dataset.colorKey;
@@ -164,6 +176,34 @@
 
   resetButton.addEventListener("click", () => {
     save({ customPalette: { ...api.DARK_PALETTE }, selectedPalette: "custom" });
+  });
+
+  siteForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const baseUrl = siteApi.normalizeBaseUrl(schoolInput.value);
+    if (!baseUrl) {
+      showStorageError("Enter a valid HTTPS Canvas URL.");
+      return;
+    }
+
+    const pattern = siteApi.originPattern(baseUrl);
+    chrome.permissions.request({ origins: [pattern] }, (granted) => {
+      if (chrome.runtime.lastError || !granted) {
+        showStorageError("OpenCanvas needs access to that Canvas site.");
+        return;
+      }
+      chrome.runtime.sendMessage({ type: "opencanvas:set-school", baseUrl }, (response) => {
+        if (chrome.runtime.lastError || !response || !response.ok) {
+          showStorageError(response && response.error ? response.error : "Could not connect to that Canvas site.");
+          return;
+        }
+        settings = api.normalizeSettings({ ...settings, schoolBaseUrl: response.baseUrl });
+        persistedSettings = settings;
+        clearStorageError();
+        render();
+        refreshActiveTabStatus();
+      });
+    });
   });
 
   createColorControls();

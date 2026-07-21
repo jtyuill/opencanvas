@@ -7,27 +7,35 @@ const root = path.join(__dirname, "..");
 const manifest = JSON.parse(fs.readFileSync(path.join(root, "manifest.json"), "utf8"));
 const css = fs.readFileSync(path.join(root, "src/theme.css"), "utf8");
 const popupCss = fs.readFileSync(path.join(root, "popup/popup.css"), "utf8");
+const backgroundSource = fs.readFileSync(path.join(root, "src/background.js"), "utf8");
 
-test("manifest is valid MV3 and scoped only to UTK Canvas", () => {
-  const expectedMatch = "https://utk.instructure.com/*";
+test("manifest uses optional per-school access", () => {
   assert.equal(manifest.manifest_version, 3);
-  assert.deepEqual(manifest.permissions, ["storage"]);
-  assert.deepEqual(manifest.host_permissions, [expectedMatch]);
-  assert.deepEqual(manifest.content_scripts[0].matches, [expectedMatch]);
-  assert.equal(manifest.content_scripts[0].run_at, "document_start");
+  assert.equal(manifest.name, "OpenCanvas");
+  assert.deepEqual(manifest.permissions, ["storage", "scripting"]);
+  assert.equal(manifest.host_permissions, undefined);
+  assert.deepEqual(manifest.optional_host_permissions, ["https://*/*"]);
+  assert.equal(manifest.content_scripts, undefined);
+  assert.equal(manifest.background.service_worker, "src/background.js");
 });
 
 test("every file referenced by the manifest exists", () => {
   const referencedFiles = [
     manifest.action.default_popup,
-    ...manifest.content_scripts.flatMap((script) => [...script.css, ...script.js])
+    manifest.background.service_worker,
+    "src/site.js",
+    "src/theme.css",
+    "src/palette.js",
+    "src/inline-color.js",
+    "src/content.js"
   ];
   referencedFiles.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), file));
 });
 
 test("inline color repair loads before the content controller", () => {
-  const scripts = manifest.content_scripts[0].js;
-  assert.ok(scripts.indexOf("src/inline-color.js") < scripts.indexOf("src/content.js"));
+  assert.ok(backgroundSource.indexOf('"src/inline-color.js"') < backgroundSource.indexOf('"src/content.js"'));
+  assert.match(backgroundSource, /runAt:\s*"document_start"/);
+  assert.match(backgroundSource, /persistAcrossSessions:\s*true/);
 });
 
 test("theme covers representative Canvas fixture surfaces", () => {

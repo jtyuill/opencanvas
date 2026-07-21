@@ -123,6 +123,7 @@ h2 { font-size: 16px; }
 .switch input:focus-visible + .switch-track,
 button:focus-visible,
 select:focus-visible,
+input[type="url"]:focus-visible,
 input[type="color"]:focus-visible {
   outline: 2px solid #ffb46e;
   outline-offset: 2px;
@@ -147,6 +148,67 @@ input[type="color"]:focus-visible {
   margin: -14px 0 20px;
   color: #ff8b94;
   font-size: 11px;
+}
+
+.site-section,
+.theme-section {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #292d34;
+}
+
+.theme-section {
+  padding-top: 20px;
+}
+
+.site-label {
+  display: block;
+  margin-bottom: 6px;
+  color: #b6bdc7;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.site-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 7px;
+}
+
+#school-url {
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid #343944;
+  border-radius: 5px;
+  background: #171a20;
+  color: #f4f1eb;
+  font: inherit;
+  font-size: 11px;
+}
+
+#school-url::placeholder {
+  color: #737c89;
+}
+
+.connect-button {
+  padding: 7px 11px;
+  border: 1px solid #ff9a3d;
+  border-radius: 5px;
+  background: #ff9a3d;
+  color: #101318;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.connect-button:hover {
+  background: #ffb46e;
+}
+
+.site-help {
+  margin: 6px 0 0;
+  color: #737c89;
+  font-size: 9px;
 }
 
 .status-dot {
@@ -267,7 +329,7 @@ select {
 }
 
 #custom-section {
-  margin-top: 25px;
+  margin-top: 20px;
   padding-top: 19px;
   border-top: 1px solid #292d34;
 }

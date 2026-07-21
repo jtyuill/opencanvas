@@ -1,4 +1,4 @@
-/* Canvas Palette only activates after validated settings are applied by content.js. */
+/* OpenCanvas only activates after validated settings are applied by content.js. */
 html[data-canvas-theme="dark"] {
   color-scheme: dark;
   background: var(--ct-background);

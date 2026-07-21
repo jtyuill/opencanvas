@@ -41,7 +41,7 @@
   });
 
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message && message.type === "canvas-palette:get-status") {
+    if (message && message.type === "opencanvas:get-status") {
       sendResponse({ available: true, active: root.dataset.canvasTheme === "dark" });
     }
   });

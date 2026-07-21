@@ -21,7 +21,7 @@
     accent: "#8ab4f8"
   });
 
-  const VOL_MIDNIGHT_PALETTE = Object.freeze({
+  const MIDNIGHT_ORANGE_PALETTE = Object.freeze({
     background: "#0f1115",
     surface: "#171a21",
     surfaceRaised: "#20242d",
@@ -33,7 +33,7 @@
 
   const PRESET_PALETTES = Object.freeze({
     dark: DARK_PALETTE,
-    "vol-midnight": VOL_MIDNIGHT_PALETTE,
+    "midnight-orange": MIDNIGHT_ORANGE_PALETTE,
     "tokyo-night": Object.freeze({
       background: "#1a1b26",
       surface: "#24283b",
@@ -83,8 +83,9 @@
 
   const DEFAULT_SETTINGS = Object.freeze({
     enabled: true,
-    selectedPalette: "vol-midnight",
-    customPalette: DARK_PALETTE
+    selectedPalette: "midnight-orange",
+    customPalette: DARK_PALETTE,
+    schoolBaseUrl: ""
   });
 
   function isHexColor(value) {
@@ -107,7 +108,8 @@
     return {
       enabled: typeof source.enabled === "boolean" ? source.enabled : DEFAULT_SETTINGS.enabled,
       selectedPalette,
-      customPalette: normalizePalette(source.customPalette)
+      customPalette: normalizePalette(source.customPalette),
+      schoolBaseUrl: typeof source.schoolBaseUrl === "string" ? source.schoolBaseUrl : ""
     };
   }
 
@@ -215,7 +217,7 @@
   const api = Object.freeze({
     COLOR_KEYS,
     DARK_PALETTE,
-    VOL_MIDNIGHT_PALETTE,
+    MIDNIGHT_ORANGE_PALETTE,
     PRESET_PALETTES,
     DEFAULT_SETTINGS,
     isHexColor,

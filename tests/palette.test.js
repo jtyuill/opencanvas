@@ -9,16 +9,17 @@ test("normalizes malformed settings to safe defaults", () => {
     customPalette: { background: "red", accent: "#ABCDEF" }
   }), {
     enabled: true,
-    selectedPalette: "vol-midnight",
+    selectedPalette: "midnight-orange",
     customPalette: {
       ...palette.DARK_PALETTE,
       accent: "#abcdef"
-    }
+    },
+    schoolBaseUrl: ""
   });
 });
 
 test("rejects inherited object properties as preset names", () => {
-  assert.equal(palette.normalizeSettings({ selectedPalette: "toString" }).selectedPalette, "vol-midnight");
+  assert.equal(palette.normalizeSettings({ selectedPalette: "toString" }).selectedPalette, "midnight-orange");
 });
 
 test("resolves custom palettes without changing the built-in palette", () => {
@@ -54,7 +55,7 @@ test("palette variables are complete CSS-safe hex colors", () => {
 });
 
 test("palette audit checks text roles and focus visibility", () => {
-  const audit = palette.auditPalette(palette.VOL_MIDNIGHT_PALETTE);
+  const audit = palette.auditPalette(palette.MIDNIGHT_ORANGE_PALETTE);
   assert.deepEqual(audit.map((check) => check.label), [
     "Body text",
     "Surface text",

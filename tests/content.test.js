@@ -56,7 +56,7 @@ function loadContentScript(initialSettings) {
     repairCalls,
     getStatus() {
       let response;
-      messageListeners[0]({ type: "canvas-palette:get-status" }, {}, (value) => { response = value; });
+      messageListeners[0]({ type: "opencanvas:get-status" }, {}, (value) => { response = value; });
       return response;
     },
     update(nextSettings, areaName = "sync") {
