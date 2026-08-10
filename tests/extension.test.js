@@ -28,7 +28,8 @@ test("every file referenced by the manifest exists", () => {
     "src/theme.css",
     "src/palette.js",
     "src/inline-color.js",
-    "src/content.js"
+    "src/content.js",
+    "src/card-images.js"
   ];
   referencedFiles.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), file));
 });

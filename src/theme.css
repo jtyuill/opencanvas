@@ -1466,6 +1466,83 @@ html[data-canvas-theme="dark"] .ic-DashboardCard__header_hero {
   forced-color-adjust: none;
 }
 
+/* Per-course dashboard images are available whether the palette is enabled or not. */
+.ic-DashboardCard__header {
+  position: relative;
+}
+
+.oc-card-image-actions {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 5;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.ic-DashboardCard:hover .oc-card-image-actions,
+.ic-DashboardCard:focus-within .oc-card-image-actions,
+.oc-card-image-actions:focus-within {
+  opacity: 1;
+}
+
+.oc-card-image-btn {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.oc-card-image-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.oc-card-image-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.oc-card-image-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#opencanvas-card-image-toast {
+  position: fixed;
+  z-index: 9999;
+  bottom: 24px;
+  left: 50%;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background: rgba(20, 20, 20, 0.92);
+  color: #fff;
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(8px);
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+#opencanvas-card-image-toast.oc-card-image-toast-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 @media print {
   html[data-canvas-theme="dark"],
   html[data-canvas-theme="dark"] body,
