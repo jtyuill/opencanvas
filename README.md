@@ -21,7 +21,7 @@ A free and open-source Chromium extension that makes Canvas better.
 ## Installation for pros
 1. Clone the repo and then load unpacked in extensions window, make sure developer mode tick is on
 
-Troubleshooting:
+## Troubleshooting:
 
 - **"Manifest file is missing or unreadable"** — you selected the wrong folder. Pick the one that contains a file named `manifest.json`, not the one above it.
 - **Do not move or delete the `opencanvas` folder** after loading it, or the extension will stop working. If you need to move it, remove the extension, move the folder, and load it again.
