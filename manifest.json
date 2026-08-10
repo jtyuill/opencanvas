@@ -6,10 +6,20 @@
   "permissions": ["storage", "scripting"],
   "optional_host_permissions": ["https://*/*"],
   "background": {
+    "scripts": ["src/site.js", "src/background.js"],
     "service_worker": "src/background.js"
   },
   "action": {
     "default_title": "OpenCanvas",
     "default_popup": "popup/popup.html"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "opencanvas@jtyuill",
+      "strict_min_version": "142.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
   }
 }
