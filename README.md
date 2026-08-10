@@ -1,7 +1,6 @@
 # OpenCanvas
 
-A free and open-source browser extension that makes Canvas better. OpenCanvas supports Chrome, Edge, Brave, and Firefox.
-
+A free and open-source browser extension that makes Canvas better. OpenCanvas supports Chromium browsers and Firefox
 ## Features
 
 - Two presets: **Standard Black** and **Tokyo Night**, plus a fully editable **Custom** palette.
@@ -12,7 +11,7 @@ A free and open-source browser extension that makes Canvas better. OpenCanvas su
 
 Open the [latest release](https://github.com/jtyuill/opencanvas/releases/latest) and download the file for your browser.
 
-### Chrome, Edge, and Brave
+### Chromium browsers
 
 1. Download `opencanvas-<version>-chromium.zip`.
 2. Extract the ZIP to a permanent folder. Do not move or delete this folder after installation.
@@ -36,6 +35,8 @@ Open the [latest release](https://github.com/jtyuill/opencanvas/releases/latest)
 6. Approve access, then open or refresh Canvas.
 
 Firefox removes temporary add-ons when it closes. Permanent Firefox installation requires a Mozilla-signed package, which the GitHub release does not currently provide.
+
+This will be fixed soonTM
 
 ## Install from source
 
