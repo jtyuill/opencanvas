@@ -1,38 +1,28 @@
 # OpenCanvas
 
-A free and open-source extension that adds dark mode and custom palettes to your school's Canvas site. OpenCanvas supports Chromium browsers and Firefox from the same source.
+A free and open-source Chromium extension that makes Canvas better.
 
 ## Features
 
 - Two presets: **Standard Black** and **Tokyo Night**, plus a fully editable **Custom** palette.
-- Seven editable custom colors with live updates across open Canvas tabs.
+- Editable custom colors with live updates across open Canvas tabs.
+- Custom class card pictures.
 
-## Install a release
+## Installation for noobs (all operating systems)
 
-Download the archive for your browser from the [latest GitHub release](https://github.com/jtyuill/opencanvas/releases/latest), then extract it.
+1. In the top right of this repository, click the green "Code" icon, then click download ZIP
+2. Extract the ZIP file somewhere
+4. *Open your Chromium based browser (Opera, Chrome, Brave, etc.), and type `chrome://extensions` in the address bar. Press Enter.
+5. Turn on **Developer mode**, a switch in the top-right corner of the page.
+6. Click **Load unpacked** (top-left). In the window that opens, find and select the `opencanvas-main` folder you just downloaded.
+7. OpenCanvas is now installed. Click its icon in the toolbar, enter your school's Canvas web address (for example `https://canvas.example.edu`), and click **Connect**.
+8. Approve access when Chrome asks, then open or refresh your Canvas site. The dark theme is on.
 
-### Chrome, Edge, and Brave
+## Installation for pros
+1. Clone the repo and then load unpacked in extensions window, make sure developer mode tick is on
 
-1. Open `chrome://extensions`.
-2. Enable **Developer mode**.
-3. Click **Load unpacked** and select the extracted OpenCanvas folder.
-4. Open the toolbar popup, enter your school's Canvas address, and click **Connect**.
-5. Approve access, then open or refresh Canvas.
+## Troubleshooting:
 
-### Firefox
-
-1. Open `about:debugging#/runtime/this-firefox`.
-2. Click **Load Temporary Add-on** and select the downloaded Firefox `.zip` or its extracted `manifest.json`.
-3. Open the toolbar popup, enter your school's Canvas address, and click **Connect**.
-4. Approve access, then open or refresh Canvas.
-
-Firefox removes temporary add-ons when it closes. Persistent Firefox installation requires Mozilla signing.
-
-## Install locally (developers)
-
-The repository manifest supports both browser engines:
-
-- Chromium: load the repository directory from `chrome://extensions`.
-- Firefox: select `manifest.json` from `about:debugging#/runtime/this-firefox`.
-
-Run `npm run build:release` to create browser-labeled archives in `release-artifacts/`.
+- **"Manifest file is missing or unreadable"** — you selected the wrong folder. Pick the one that contains a file named `manifest.json`, not the one above it.
+- **Do not move or delete the `opencanvas` folder** after loading it, or the extension will stop working. If you need to move it, remove the extension, move the folder, and load it again.
+- **Updates** - if you did not clone the git repo you will have to manually redownload. Chrome store coming soont
