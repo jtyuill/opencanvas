@@ -7,6 +7,15 @@ const palette = require("../src/palette.js");
 const site = require("../src/site.js");
 
 const popupSource = fs.readFileSync(path.join(__dirname, "../popup/popup.js"), "utf8");
+const popupHtml = fs.readFileSync(path.join(__dirname, "../popup/popup.html"), "utf8");
+
+test("popup exposes only the supported themes", () => {
+  const options = [...popupHtml.matchAll(/<option value="([^"]+)">/g)].map((match) => match[1]);
+  assert.deepEqual(options, ["dark", "tokyo-night", "custom"]);
+  assert.match(popupHtml, />Standard Black<\/option>/);
+  assert.doesNotMatch(popupHtml, /Access is limited to this Canvas site/);
+  assert.doesNotMatch(popupSource, /contrast checks pass/);
+});
 
 class FakeElement {
   constructor() {
@@ -22,10 +31,12 @@ class FakeElement {
       values: new Set(),
       toggle: (name, enabled) => enabled ? this.classList.values.add(name) : this.classList.values.delete(name)
     };
+    this.attributes = {};
   }
 
   addEventListener(type, listener) { this.listeners[type] = listener; }
   append() {}
+  setAttribute(name, value) { this.attributes[name] = value; }
   querySelectorAll() { return []; }
 }
 
@@ -38,8 +49,8 @@ function loadPopup({
 } = {}) {
   const selectors = [
     "#enabled", "#palette-select", "#color-grid", "#status-dot", "#status-text",
-    "#contrast", "#preview", "#reset", "#custom-section", "#storage-error",
-    "#site-form", "#school-url", "#connect-site"
+    "#preview", "#custom-preview", "#reset", "#home-view", "#custom-view", "#edit-custom",
+    "#back", "#storage-error", "#site-form", "#school-url", "#connect-site"
   ];
   const elements = Object.fromEntries(selectors.map((selector) => [selector, new FakeElement()]));
   const storageListeners = [];
@@ -93,6 +104,27 @@ test("popup reports confirmed Canvas tab state", () => {
   assert.equal(elements["#status-dot"].classList.values.has("active"), true);
   assert.ok(elements["#preview"].style.values["--preview-raised"]);
   assert.ok(elements["#preview"].style.values["--preview-accent-text"]);
+});
+
+test("popup opens and closes the custom palette editor", () => {
+  const { elements } = loadPopup();
+  assert.equal(elements["#home-view"].hidden, false);
+  assert.equal(elements["#custom-view"].hidden, true);
+  assert.equal(elements["#edit-custom"].hidden, true);
+
+  elements["#palette-select"].value = "custom";
+  elements["#palette-select"].listeners.change();
+  assert.equal(elements["#home-view"].hidden, true);
+  assert.equal(elements["#custom-view"].hidden, false);
+  assert.equal(elements["#edit-custom"].hidden, false);
+  assert.ok(elements["#custom-preview"].style.values["--preview-background"]);
+
+  elements["#back"].listeners.click();
+  assert.equal(elements["#home-view"].hidden, false);
+  assert.equal(elements["#custom-view"].hidden, true);
+
+  elements["#edit-custom"].listeners.click();
+  assert.equal(elements["#custom-view"].hidden, false);
 });
 
 test("popup distinguishes unavailable tabs", () => {

@@ -3,14 +3,14 @@
 
   const api = globalThis.CanvasPalette;
   const siteApi = globalThis.OpenCanvasSite;
-  const labels = {
-    background: "Page",
-    surface: "Surface",
-    surfaceRaised: "Raised",
-    text: "Text",
-    muted: "Muted text",
-    border: "Border",
-    accent: "Accent"
+  const colorMetadata = {
+    background: { label: "Page", description: "Main Canvas background" },
+    surface: { label: "Surface", description: "Navigation and panels" },
+    surfaceRaised: { label: "Raised", description: "Cards and menus" },
+    text: { label: "Text", description: "Primary content" },
+    muted: { label: "Muted text", description: "Secondary content" },
+    border: { label: "Border", description: "Dividers and outlines" },
+    accent: { label: "Accent", description: "Links and actions" }
   };
 
   const enabledInput = document.querySelector("#enabled");
@@ -18,10 +18,13 @@
   const colorGrid = document.querySelector("#color-grid");
   const statusDot = document.querySelector("#status-dot");
   const statusText = document.querySelector("#status-text");
-  const contrastText = document.querySelector("#contrast");
   const preview = document.querySelector("#preview");
+  const customPreview = document.querySelector("#custom-preview");
   const resetButton = document.querySelector("#reset");
-  const customSection = document.querySelector("#custom-section");
+  const homeView = document.querySelector("#home-view");
+  const customView = document.querySelector("#custom-view");
+  const editCustomButton = document.querySelector("#edit-custom");
+  const backButton = document.querySelector("#back");
   const storageError = document.querySelector("#storage-error");
   const siteForm = document.querySelector("#site-form");
   const schoolInput = document.querySelector("#school-url");
@@ -29,6 +32,7 @@
   let settings = api.normalizeSettings(api.DEFAULT_SETTINGS);
   let persistedSettings = settings;
   let tabStatus = "checking";
+  let activeView = "home";
 
   function save(changes) {
     const previousSettings = persistedSettings;
@@ -38,6 +42,7 @@
     chrome.storage.sync.set(changes, () => {
       if (chrome.runtime.lastError) {
         settings = previousSettings;
+        if (activeView === "custom" && previousSettings.selectedPalette !== "custom") activeView = "home";
         render();
         showStorageError("Could not save theme settings. Please try again.");
         return;
@@ -60,19 +65,21 @@
 
   function createColorControls() {
     api.COLOR_KEYS.forEach((key) => {
-      const label = document.createElement("label");
-      label.className = "color-control";
-      label.innerHTML = `
-        <input type="color" data-color-key="${key}" aria-label="${labels[key]}">
-        <span class="color-copy">
-          <span>${labels[key]}</span>
-          <span class="color-value"></span>
-        </span>`;
-      colorGrid.append(label);
+      const metadata = colorMetadata[key];
+      const control = document.createElement("div");
+      control.className = "color-control";
+      control.innerHTML = `
+        <label class="color-copy" for="color-${key}">
+          <span class="color-name">${metadata.label}</span>
+          <span class="color-description">${metadata.description}</span>
+        </label>
+        <input class="color-text" type="text" value="" data-color-text="${key}" aria-label="${metadata.label} hex color" maxlength="7" spellcheck="false">
+        <input id="color-${key}" class="color-picker" type="color" data-color-key="${key}" aria-label="Choose ${metadata.label.toLowerCase()} color">`;
+      colorGrid.append(control);
     });
   }
 
-  function renderPreview(palette) {
+  function renderPreview(target, palette) {
     const names = {
       background: "--preview-background",
       surface: "--preview-surface",
@@ -82,19 +89,10 @@
       border: "--preview-border",
       accent: "--preview-accent"
     };
-    Object.entries(names).forEach(([key, name]) => preview.style.setProperty(name, palette[key]));
-    preview.style.setProperty("--preview-accent-text", api.paletteToVariables(palette)["--ct-accent-text"]);
+    Object.entries(names).forEach(([key, name]) => target.style.setProperty(name, palette[key]));
+    target.style.setProperty("--preview-accent-text", api.paletteToVariables(palette)["--ct-accent-text"]);
   }
 
-  function renderContrast(palette) {
-    const audit = api.auditPalette(palette);
-    const failures = audit.filter((check) => !check.passes);
-    contrastText.textContent = failures.length === 0
-      ? `All ${audit.length} contrast checks pass`
-      : `${audit.length - failures.length}/${audit.length} contrast checks pass · Review ${failures.slice(0, 2).map((check) => check.label).join(" and ")}`;
-    contrastText.title = failures.map((check) => `${check.label}: ${check.ratio.toFixed(1)}:1`).join("; ");
-    contrastText.classList.toggle("warning", failures.length > 0);
-  }
 
   function renderStatus() {
     const messages = {
@@ -139,39 +137,74 @@
     const palette = api.resolvePalette(settings);
     enabledInput.checked = settings.enabled;
     paletteSelect.value = settings.selectedPalette;
-    customSection.hidden = settings.selectedPalette !== "custom";
     schoolInput.value = settings.schoolBaseUrl;
     connectButton.textContent = settings.schoolBaseUrl ? "Update" : "Connect";
+    editCustomButton.hidden = settings.selectedPalette !== "custom";
 
     colorGrid.querySelectorAll("[data-color-key]").forEach((input) => {
-      const key = input.dataset.colorKey;
-      input.value = settings.customPalette[key];
-      input.closest("label").querySelector(".color-value").textContent = settings.customPalette[key];
+      input.value = settings.customPalette[input.dataset.colorKey];
+    });
+    colorGrid.querySelectorAll("[data-color-text]").forEach((input) => {
+      input.value = settings.customPalette[input.dataset.colorText];
+      input.setAttribute("aria-invalid", "false");
     });
 
-    renderPreview(palette);
-    renderContrast(palette);
+    homeView.hidden = activeView !== "home";
+    customView.hidden = activeView !== "custom";
+    renderPreview(preview, palette);
+    renderPreview(customPreview, settings.customPalette);
     renderStatus();
   }
 
   enabledInput.addEventListener("change", () => save({ enabled: enabledInput.checked }));
 
   paletteSelect.addEventListener("change", () => {
+    if (paletteSelect.value === "custom") activeView = "custom";
     save({ selectedPalette: paletteSelect.value });
   });
 
-  colorGrid.addEventListener("input", (event) => {
-    const input = event.target.closest("[data-color-key]");
-    if (!input) return;
-    const customPalette = { ...settings.customPalette, [input.dataset.colorKey]: input.value };
-    settings = api.normalizeSettings({ ...settings, customPalette, selectedPalette: "custom" });
+  editCustomButton.addEventListener("click", () => {
+    activeView = "custom";
     render();
   });
 
+  backButton.addEventListener("click", () => {
+    activeView = "home";
+    render();
+  });
+
+  colorGrid.addEventListener("input", (event) => {
+    const picker = event.target.closest("[data-color-key]");
+    if (picker) {
+      const customPalette = { ...settings.customPalette, [picker.dataset.colorKey]: picker.value };
+      settings = api.normalizeSettings({ ...settings, customPalette, selectedPalette: "custom" });
+      render();
+      return;
+    }
+
+    const textInput = event.target.closest("[data-color-text]");
+    if (!textInput) return;
+    const normalized = textInput.value.trim().toLowerCase();
+    textInput.setAttribute("aria-invalid", String(!api.isHexColor(normalized)));
+  });
+
   colorGrid.addEventListener("change", (event) => {
-    const input = event.target.closest("[data-color-key]");
-    if (!input) return;
-    save({ customPalette: settings.customPalette, selectedPalette: "custom" });
+    const picker = event.target.closest("[data-color-key]");
+    if (picker) {
+      save({ customPalette: settings.customPalette, selectedPalette: "custom" });
+      return;
+    }
+
+    const textInput = event.target.closest("[data-color-text]");
+    if (!textInput) return;
+    const normalized = textInput.value.trim().toLowerCase();
+    if (!api.isHexColor(normalized)) {
+      textInput.value = settings.customPalette[textInput.dataset.colorText];
+      textInput.setAttribute("aria-invalid", "false");
+      return;
+    }
+    const customPalette = { ...settings.customPalette, [textInput.dataset.colorText]: normalized };
+    save({ customPalette, selectedPalette: "custom" });
   });
 
   resetButton.addEventListener("click", () => {

@@ -544,6 +544,45 @@ html[data-canvas-theme="dark"] .ReactModal__Overlay {
   background: rgb(0 0 0 / 68%) !important;
 }
 
+/* The global Courses tray uses InstUI child text that does not inherit the
+   themed link and metadata colors. Keep the stable tray hooks readable. */
+html[data-canvas-theme="dark"] .navigation-tray-container.courses-tray,
+html[data-canvas-theme="dark"] [role="dialog"][aria-label="Courses tray"] {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .courses-tray hr {
+  border-color: var(--ct-border) !important;
+}
+
+html[data-canvas-theme="dark"] .courses-tray [data-cid~="Heading"] {
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .courses-tray [data-cid~="Link"] {
+  color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] .courses-tray [data-cid~="Link"] :is(div, span) {
+  color: inherit !important;
+}
+
+html[data-canvas-theme="dark"] .courses-tray [data-cid~="ListItem"] {
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .courses-tray [data-cid~="ListItem"] > div {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] .courses-tray [data-cid~="Link"]:is(:hover, :focus-visible) {
+  background-color: var(--ct-accent-soft) !important;
+  color: var(--ct-accent-hover) !important;
+}
+
 html[data-canvas-theme="dark"] .ReactModal__Content--canvas .ReactModal__Header,
 html[data-canvas-theme="dark"] .ReactModal__Content--canvas .ReactModal__Footer,
 html[data-canvas-theme="dark"] .sticky-footer,
@@ -634,6 +673,18 @@ html[data-canvas-theme="dark"] #section-tabs .nav-badge {
   color: var(--ct-text) !important;
 }
 
+html[data-canvas-theme="dark"] #global_nav_conversations_link .menu-item__badge,
+html[data-canvas-theme="dark"] #mobileHeaderInboxUnreadBadge {
+  background-color: var(--ct-accent) !important;
+  border-color: var(--ct-accent) !important;
+  color: var(--ct-accent-text) !important;
+}
+
+html[data-canvas-theme="dark"] #global_nav_conversations_link .menu-item__badge :is(span, b, strong),
+html[data-canvas-theme="dark"] #mobileHeaderInboxUnreadBadge :is(span, b, strong) {
+  color: inherit !important;
+}
+
 html[data-canvas-theme="dark"] #section-tabs a:is(.active, [aria-current="page"]) .nav-badge {
   background-color: var(--ct-accent) !important;
   color: var(--ct-accent-text) !important;
@@ -651,6 +702,57 @@ html[data-canvas-theme="dark"] [data-cid~="BaseButton"]:is(:hover, :focus-visibl
 
 html[data-canvas-theme="dark"] [data-cid~="BaseButton"] :is([fill="#000000"], [fill="#000"]) {
   fill: currentColor !important;
+}
+
+/* Modern child controls keep their own light-theme tokens unless their stable
+   component hooks are covered as well as the root control. */
+html[data-canvas-theme="dark"] :is(
+  [data-cid~="RadioInputGroup"],
+  [data-testid="assignment-radio-input-group"],
+  [data-testid="assignment-input-group"]
+) {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(
+  [data-cid~="RadioInputGroup"],
+  [data-testid="assignment-radio-input-group"],
+  [data-testid="assignment-input-group"]
+) :is([data-cid~="RadioInput"], label, [role="radio"]) {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(
+  [data-cid~="RadioInputGroup"],
+  [data-testid="assignment-radio-input-group"],
+  [data-testid="assignment-input-group"]
+) :is([data-cid~="RadioInput"], label, [role="radio"]) :is(
+  span,
+  p,
+  small,
+  [data-cid~="Text"],
+  [data-cid~="Label"]
+) {
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(
+  [data-cid~="RadioInputGroup"],
+  [data-testid="assignment-radio-input-group"],
+  [data-testid="assignment-input-group"]
+) :is(
+  [data-cid~="RadioInput"][aria-checked="true"],
+  [data-cid~="RadioInput"]:has(input:checked),
+  label:has(input:checked),
+  [role="radio"][aria-checked="true"]
+) {
+  background-color: var(--ct-accent-soft) !important;
+  border-color: var(--ct-accent) !important;
+  color: var(--ct-text) !important;
 }
 
 html[data-canvas-theme="dark"] :is([data-cid~="Select"], label[data-cid~="TextInput"]) [data-position-target],
@@ -676,6 +778,161 @@ html[data-canvas-theme="dark"] [data-cid~="Heading"] {
   color: var(--ct-text);
 }
 
+/* Modern assignment student view. These stable test hooks cover the compiled
+   child text and tables that do not inherit the themed page color. */
+html[data-canvas-theme="dark"] :is(
+  [data-testid="assignments-2-student-view"],
+  [data-testid="assignment-2-student-content-tabs"],
+  [data-testid="rubric-tab"],
+  [data-testid="rubric-content-wrapper"],
+  [data-testid="rubric-preview"],
+  [data-testid="rubric-assessment-traditional-view"],
+  [data-testid="attempt-tab"],
+  [data-testid="file-preview"],
+  [data-testid="assignments_2_submission_preview"]
+) {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(
+  [data-testid="assignment-student-header"],
+  [data-testid="student-footer"]
+) {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(
+  [data-testid="title"],
+  [data-testid="grade-display"],
+  [data-testid="submission-workflow-tracker-title"],
+  [data-testid="assignment-student-anonymus-label"],
+  [data-testid="student-content-flex-container"],
+  [data-testid="rubric-tab"],
+  [data-testid="rubric-content-wrapper"],
+  [data-testid="rubric-preview"],
+  [data-testid="rubric-assessment-traditional-view"],
+  [data-testid="attempt-tab"],
+  [data-testid="file-preview"],
+  [data-testid="assignments_2_submission_preview"],
+  [data-testid="student-footer"]
+) {
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(
+  [data-testid="assignment-sub-header"],
+  [data-testid="assignments-2-student-view"] [data-testid="friendly-date-time"],
+  [data-testid="assignments-2-student-view"] [data-testid="due-date"]
+) {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] [data-testid="submission-workflow-tracker-subtitle"] {
+  color: var(--ct-success) !important;
+}
+
+html[data-canvas-theme="dark"] [data-testid="assignments-2-assignment-description"] {
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(
+  [data-testid="student-content-flex-container"],
+  [data-testid="rubric-tab"],
+  [data-testid="rubric-preview"],
+  [data-testid="rubric-assessment-traditional-view"],
+  [data-testid="attempt-tab"],
+  [data-testid="file-preview"]
+) :is(p, span, div, strong, em, label, time, th, td) {
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] [data-testid="rubric-assessment-traditional-view"] :is(table, tbody, tr, td) {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] [data-testid="rubric-assessment-traditional-view"] :is(thead, thead td, thead th) {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] [data-testid="rubric-tab"] [data-cid~="Select"] :has([data-testid="select-grader-dropdown"]) {
+  background-color: var(--ct-surface-raised) !important;
+  background-image: none !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] [data-testid="rubric-tab"] [data-testid="select-grader-dropdown"] {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(
+  [data-testid="assignments-2-assignment-toggle-details"],
+  [data-testid="fill-out-rubric-toggle"],
+  [data-testid="view_feedback_button"],
+  [data-testid="new-attempt-button"],
+  button[data-testid^="traditional-criterion-"][data-testid*="-ratings-"]
+) {
+  background: var(--ct-surface-raised) !important;
+  background-image: none !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] button[data-testid^="traditional-criterion-"][data-testid*="-ratings-"] :is(span, div) {
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] button[data-testid^="traditional-criterion-"][data-testid*="-ratings-"]:has(+ [data-testid$="-selected"]) {
+  background: var(--ct-accent-soft) !important;
+  border-color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] [data-testid="uploaded_files_table"] {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] [data-testid="uploaded_files_table"] :is(tbody, tr, td) {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] [data-testid="uploaded_files_table"] :is(thead, th) {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] [data-testid="uploaded_files_table"] :is(span, a) {
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] [data-testid="uploaded_files_table"] a {
+  color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] [data-testid="student-footer"] :is(
+  [data-testid="previous-assignment-btn"],
+  [data-testid="next-assignment-btn"],
+  [data-cid~="Link"]
+) {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: var(--ct-accent) !important;
+}
+
 /* Course home announcements and sidebar */
 html[data-canvas-theme="dark"] #announcements_on_home_page > section {
   background-color: var(--ct-surface) !important;
@@ -699,6 +956,78 @@ html[data-canvas-theme="dark"] :is(#course_show_secondary, #sidebar_content, .Si
 html[data-canvas-theme="dark"] .Sidebar__TodoListContainer [data-cid~="ListItem"] {
   border-color: var(--ct-border) !important;
   color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(
+  .Sidebar__TodoListContainer,
+  .ToDoSidebarItem,
+  [data-testid="dashboard-todo-list"],
+  [data-testid="dashboard-todo-item"]
+) :is(
+  [data-testid="todo-item-meta"],
+  [data-testid="todo-item-metadata"],
+  [data-testid*="todo"][data-testid*="meta"],
+  [data-testid*="todo"][data-testid*="due"],
+  [data-cid~="Metadata"],
+  [data-cid~="MetaText"],
+  .ToDoSidebarItem__meta,
+  .ToDoSidebarItem__metadata,
+  .todo-item-meta,
+  .todo-item-metadata
+) {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] :is(
+  .Sidebar__TodoListContainer,
+  .ToDoSidebarItem,
+  [data-testid="dashboard-todo-list"],
+  [data-testid="dashboard-todo-item"]
+) :is(
+  [data-testid="todo-item-meta"],
+  [data-testid="todo-item-metadata"],
+  [data-testid*="todo"][data-testid*="meta"],
+  [data-testid*="todo"][data-testid*="due"],
+  [data-cid~="Metadata"],
+  [data-cid~="MetaText"],
+  .ToDoSidebarItem__meta,
+  .ToDoSidebarItem__metadata,
+  .todo-item-meta,
+  .todo-item-metadata
+) :is(p, span, small, time, [data-cid~="Text"]) {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] :is(
+  .Sidebar__TodoListContainer,
+  .ToDoSidebarItem,
+  [data-testid="dashboard-todo-list"],
+  [data-testid="dashboard-todo-item"]
+) :is(
+  [data-testid="todo-item-meta"],
+  [data-testid="todo-item-metadata"],
+  [data-testid*="todo"][data-testid*="meta"],
+  [data-testid*="todo"][data-testid*="due"],
+  [data-cid~="Metadata"],
+  [data-cid~="MetaText"],
+  .ToDoSidebarItem__meta,
+  .ToDoSidebarItem__metadata,
+  .todo-item-meta,
+  .todo-item-metadata
+) :is(a, [data-cid~="Link"]) {
+  color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] .ToDoSidebarItem__Info > :is(span, ul) {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] .ToDoSidebarItem__Info > ul :is(li, span, time) {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] .ToDoSidebarItem__Title :is(a, [data-cid~="Link"]) {
+  color: var(--ct-accent) !important;
 }
 
 /* Modules and Pages index internals */
@@ -790,6 +1119,144 @@ html[data-canvas-theme="dark"] #grades_summary .grade-distribution-graph :is(tex
   stroke: currentColor !important;
 }
 
+html[data-canvas-theme="dark"] #grades_summary .score_details_table {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #grades_summary .score_details_table :is(thead, tbody, tr, th, td) {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] #grades_summary .score_details_table :is(thead, thead th) {
+  background-color: var(--ct-surface-raised) !important;
+}
+
+html[data-canvas-theme="dark"] #grades_summary .score_details_table svg {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] #grades_summary .score_details_table svg :is(line, rect) {
+  stroke: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] #grades_summary .score_details_table svg rect.mid50 {
+  fill: var(--ct-accent-soft) !important;
+  stroke: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] #grades_summary .score_details_table svg rect.myScore {
+  fill: var(--ct-accent) !important;
+  stroke: var(--ct-accent-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(
+  [data-cid~="Pill"],
+  [data-testid="grade-status-pill"],
+  [data-testid*="grade"][data-testid*="status"],
+  [data-testid*="grade"][data-testid*="pill"],
+  .grade-status,
+  .status-pill
+) {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(
+  [data-cid~="Pill"][data-status="late"],
+  [data-cid~="Pill"][data-status="missing"],
+  [data-testid="grade-status-pill"][data-status="late"],
+  [data-testid="grade-status-pill"][data-status="missing"],
+  [data-testid*="grade"][data-testid*="late"],
+  [data-testid*="grade"][data-testid*="missing"],
+  [data-testid*="late"],
+  [data-testid*="missing"],
+  .grade-status--late,
+  .grade-status--missing
+) {
+  background-color: var(--ct-danger-soft) !important;
+  border-color: var(--ct-danger) !important;
+  color: var(--ct-danger) !important;
+}
+
+html[data-canvas-theme="dark"] :is(
+  [data-cid~="Pill"][data-status="complete"],
+  [data-cid~="Pill"][data-status="excused"],
+  [data-testid="grade-status-pill"][data-status="complete"],
+  [data-testid="grade-status-pill"][data-status="excused"],
+  [data-testid*="grade"][data-testid*="complete"],
+  [data-testid*="grade"][data-testid*="excused"],
+  [data-testid*="complete"],
+  [data-testid*="excused"],
+  .grade-status--complete,
+  .grade-status--excused
+) {
+  background-color: var(--ct-success-soft) !important;
+  border-color: var(--ct-success) !important;
+  color: var(--ct-success) !important;
+}
+
+html[data-canvas-theme="dark"] :is(
+  [data-cid~="Pill"][data-status="pending"],
+  [data-testid="grade-status-pill"][data-status="pending"],
+  [data-testid*="grade"][data-testid*="pending"],
+  [data-testid*="pending"],
+  .grade-status--pending
+) {
+  background-color: var(--ct-warning-soft) !important;
+  border-color: var(--ct-warning) !important;
+  color: var(--ct-warning) !important;
+}
+
+html[data-canvas-theme="dark"] :is(
+  #assignment_show,
+  .assignment,
+  .assignment-list,
+  #grades_summary
+) :is(
+  .toggle_assignment,
+  .toggle_details,
+  .toggle_comments,
+  .toggle_score_details,
+  .toggle_rubric_assessments,
+  .toggle_comments_link,
+  .toggle_score_details_link,
+  .toggle_rubric_assessments_link,
+  [data-testid="assignment-toggle"],
+  [data-testid*="assignment"][data-testid*="toggle"]
+) {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] #grades_summary a.toggle_score_details_link {
+  background: var(--ct-accent-soft) !important;
+  background-image: none !important;
+  border-color: var(--ct-accent) !important;
+  color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] #grades_summary a.toggle_score_details_link i,
+html[data-canvas-theme="dark"] #grades_summary a.toggle_score_details_link i::before {
+  color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] #grades_summary a.toggle_score_details_link:is(:hover, :focus-visible, [aria-expanded="true"]) {
+  background: var(--ct-accent) !important;
+  border-color: var(--ct-accent) !important;
+  color: var(--ct-accent-text) !important;
+}
+
+html[data-canvas-theme="dark"] #grades_summary a.toggle_score_details_link:is(:hover, :focus-visible, [aria-expanded="true"]) i,
+html[data-canvas-theme="dark"] #grades_summary a.toggle_score_details_link:is(:hover, :focus-visible, [aria-expanded="true"]) i::before {
+  color: var(--ct-accent-text) !important;
+}
+
 /* Calendar, inbox, account, and settings routes */
 html[data-canvas-theme="dark"] :is(#calendar-app, .calendar, .fc-view, .fc-list, .conversations, .message-list, .conversation, .compose-message-dialog, .profile_table, .ui-tabs-panel) {
   background-color: var(--ct-surface) !important;
@@ -803,14 +1270,72 @@ html[data-canvas-theme="dark"] :is(.fc-toolbar, .fc-scrollgrid, .fc-theme-standa
   color: var(--ct-text) !important;
 }
 
+html[data-canvas-theme="dark"] .fc-widget-header {
+  background-color: var(--ct-surface-raised) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] .fc-widget-content {
+  background-color: var(--ct-surface) !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(#calendar-app, .calendar) .fc-button {
+  background: var(--ct-surface-raised) !important;
+  background-image: none !important;
+  border-color: var(--ct-border) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(#calendar-app, .calendar) .fc-button:is(:hover, :focus-visible, .fc-state-active, .fc-button-active) {
+  background-color: var(--ct-border) !important;
+  border-color: var(--ct-accent) !important;
+  color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(#calendar-app, .calendar) :is(
+  .fc-button-link,
+  .Button--link,
+  .btn-link,
+  [data-cid~="BaseButton"][data-variant="link"],
+  [data-cid~="BaseButton"][data-cid~="Link"],
+  [data-testid="calendar-link-button"],
+  a[data-testid="calendar-button"],
+  [data-testid*="calendar"][data-testid*="button"]
+) {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: var(--ct-accent) !important;
+}
+
+html[data-canvas-theme="dark"] :is(#calendar-app, .calendar) :is(
+  .fc-button-link,
+  .Button--link,
+  .btn-link,
+  [data-cid~="BaseButton"][data-variant="link"],
+  [data-cid~="BaseButton"][data-cid~="Link"],
+  [data-testid="calendar-link-button"],
+  a[data-testid="calendar-button"],
+  [data-testid*="calendar"][data-testid*="button"]
+):is(:hover, :focus-visible) {
+  background-color: var(--ct-accent-soft) !important;
+  color: var(--ct-accent-hover) !important;
+}
+
 html[data-canvas-theme="dark"] :is(.fc-day-today, .message-list .message-item.active, .conversation.selected) {
   background-color: var(--ct-accent-soft) !important;
 }
 
-html[data-canvas-theme="dark"] .fc-event {
-  border-color: var(--ct-accent) !important;
-  background-color: var(--ct-surface-raised) !important;
-  color: var(--ct-accent) !important;
+/* Canvas assigns course colors to events; preserve those inline colors rather
+   than flattening every event to the theme accent. */
+html[data-canvas-theme="dark"] :is(#calendar-app, .calendar) .fc-event {
+  color: inherit;
+}
+
+html[data-canvas-theme="dark"] :is(#calendar-app, .calendar) .fc-event :is(a, .fc-title) {
+  color: inherit;
 }
 
 html[data-canvas-theme="dark"] :is(.fc-body, .fc-unthemed .fc-view, .fc-unthemed .fc-day, .fc-unthemed .fc-day-top) {
@@ -842,6 +1367,48 @@ html[data-canvas-theme="dark"] [data-testid="tool-bar"] {
   background-color: var(--ct-surface) !important;
   border-color: var(--ct-border) !important;
   color: var(--ct-text) !important;
+}
+
+html[data-canvas-theme="dark"] :is(.conversations, .message-list, .conversation) :is(
+  [data-testid="message-preview"],
+  [data-testid="conversation-preview"],
+  [data-testid*="message"][data-testid*="preview"],
+  .message-preview,
+  .message-item__preview,
+  .message-item__body,
+  .message-item__content,
+  .message-snippet,
+  .conversation-preview
+) {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] :is(.conversations, .message-list, .conversation) :is(
+  [data-testid="message-preview"],
+  [data-testid="conversation-preview"],
+  [data-testid*="message"][data-testid*="preview"],
+  .message-preview,
+  .message-item__preview,
+  .message-item__body,
+  .message-item__content,
+  .message-snippet,
+  .conversation-preview
+) :is(p, span, small, time, [data-cid~="Text"]) {
+  color: var(--ct-muted) !important;
+}
+
+html[data-canvas-theme="dark"] :is(.conversations, .message-list, .conversation) :is(
+  [data-testid="message-preview"],
+  [data-testid="conversation-preview"],
+  [data-testid*="message"][data-testid*="preview"],
+  .message-preview,
+  .message-item__preview,
+  .message-item__body,
+  .message-item__content,
+  .message-snippet,
+  .conversation-preview
+) :is(a, [data-cid~="Link"]) {
+  color: var(--ct-accent) !important;
 }
 
 html[data-canvas-theme="dark"] tr.access_token > td,
@@ -909,6 +1476,8 @@ html[data-canvas-theme="dark"] .ic-DashboardCard__header_hero {
   html[data-canvas-theme="dark"] #content .table :is(th, td),
   html[data-canvas-theme="dark"] #content .ic-Table :is(th, td),
   html[data-canvas-theme="dark"] #context_modules :is(.ig-header, .ig-row),
+  html[data-canvas-theme="dark"] .pages.show .show-content,
+  html[data-canvas-theme="dark"] #course_syllabus,
   html[data-canvas-theme="dark"] .react-rubric :is(table, thead, tbody, tr, th, td) {
     background: #ffffff !important;
     color: #000000 !important;

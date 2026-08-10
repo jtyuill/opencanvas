@@ -4,6 +4,7 @@
     <div id="application" class="ic-app">
       <header id="header" class="ic-app-header">
         <a class="ic-app-header__menu-list-item--active ic-app-header__menu-list-link">Courses</a>
+        <a id="global_nav_conversations_link" class="ic-app-header__menu-list-link"><span class="menu-item__badge">117</span><span class="menu-item__text">Inbox</span></a>
       </header>
       <header id="mobile-header"><span class="mobile-header-title">Course</span></header>
       <nav id="mobileContextNavContainer"></nav>
@@ -14,24 +15,102 @@
           <main id="content" class="ic-Layout-contentMain">
             <nav><ul id="section-tabs"><li><a class="active" aria-current="page">Modules</a></li></ul></nav>
             <article class="ic-DashboardCard"><div class="ic-DashboardCard__header"></div></article>
+            <aside class="Sidebar__TodoListContainer" data-testid="dashboard-todo-list">
+              <div class="ToDoSidebarItem" data-testid="dashboard-todo-item">
+                <div class="ToDoSidebarItem__Info">
+                  <div class="ToDoSidebarItem__Title"><a data-cid="Link">Read chapter</a></div>
+                  <span>Biology 101</span>
+                  <ul><li>Due tomorrow <time>9:00 AM</time></li></ul>
+                  <div data-testid="todo-item-metadata" data-cid="Metadata"><span data-cid="Text">2 points</span></div>
+                </div>
+              </div>
+            </aside>
             <section id="context_modules" class="item-group-container"><div class="item-group-condensed context_module"><header class="ig-header"><span class="name"></span></header><div class="ig-row"><span class="due_date_display"></span></div></div></section>
             <article class="discussion_entry"></article>
             <section id="announcements_on_home_page"><article class="ic-announcement-row"><h3 data-cid="Heading">Announcement</h3></article></section>
             <div id="course_syllabus" class="user_content"><p>Instructor content</p></div>
             <table id="syllabus" class="ic-Table"><thead><tr><th>Assignment</th></tr></thead><tbody><tr class="date date_passed"><td>Essay</td></tr></tbody></table>
             <table class="ic-Table ic-Table--striped ic-Table--hover-row wiki-page-table"><thead><tr><th>Page</th></tr></thead><tbody><tr class="clickable"><td>Notes</td></tr></tbody></table>
-            <table id="grades_summary" class="ic-Table ic-Table--grades-summary-table"><tbody><tr class="student_assignment"><th class="title">Homework</th><td>10</td></tr></tbody></table>
+            <table id="grades_summary" class="ic-Table ic-Table--grades-summary-table">
+              <tbody>
+                <tr class="student_assignment"><th class="title">Homework</th><td>10</td><td><span data-cid="Pill" data-testid="grade-status-pill" data-status="late">Late</span></td><td class="details"><a class="toggle_score_details_link" aria-label="See scoring details" role="button"><i class="icon-check-plus standalone-icon"></i></a></td></tr>
+                <tr class="comments"><td colspan="4"><table class="ic-Table ic-Table--condensed score_details_table"><thead><tr><th>Score Details</th></tr></thead><tbody><tr><td><svg aria-hidden="true"><line class="min"></line><rect class="mid50"></rect><rect class="myScore"></rect></svg></td></tr></tbody></table></td></tr>
+              </tbody>
+            </table>
+            <section id="assignment_show" class="assignment">
+              <div data-cid="RadioInputGroup" data-testid="assignment-radio-input-group">
+                <label data-cid="RadioInput"><input type="radio" name="submission" checked><span data-cid="Text">Online submission</span></label>
+                <label data-cid="RadioInput"><input type="radio" name="submission"><span data-cid="Text">Paper submission</span></label>
+              </div>
+              <a class="toggle_details" data-testid="assignment-toggle">Show details</a>
+            </section>
+            <section data-testid="assignments-2-student-view">
+              <header data-testid="assignment-student-header">
+                <span data-testid="title">Homework 8</span>
+                <span data-testid="assignment-sub-header"><time data-testid="due-date">Due tomorrow</time></span>
+                <span data-testid="grade-display">20/20 Points</span>
+              </header>
+              <div data-testid="submission-workflow-tracker">
+                <div data-testid="submission-workflow-tracker-title">Review Feedback</div>
+                <div data-testid="submission-workflow-tracker-subtitle">Submitted</div>
+              </div>
+              <div data-testid="assignment-student-anonymus-label">Anonymous Grading: no</div>
+              <div data-testid="student-content-flex-container">
+                <button data-testid="assignments-2-assignment-toggle-details">Details</button>
+                <div data-testid="assignments-2-assignment-description" class="user_content"><p>Assignment description</p></div>
+                <div data-testid="rubric-tab">
+                  <div data-testid="rubric-content-wrapper">
+                    <div data-testid="rubric-preview">
+                      <div data-testid="rubric-assessment-traditional-view">
+                        <table class="assignment-rubric-table">
+                          <thead><tr><td>Criteria</td><td>Ratings</td><td>Points</td></tr></thead>
+                          <tbody><tr><td>Criterion</td><td>Selected</td><td>4/4 pts</td></tr></tbody>
+                        </table>
+                        <div data-testid="traditional-view-criterion-ratings">
+                          <button data-testid="traditional-criterion-1-ratings-0">Selected 4 pts</button><div data-testid="traditional-criterion-1-ratings-0-selected"></div>
+                          <button data-testid="traditional-criterion-1-ratings-1">No marks 0 pts</button>
+                          <span data-testid="criterion-score-1-readonly">4/4 pts</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div data-testid="assignment-2-student-content-tabs">
+                <div data-testid="attempt-tab">
+                  <span data-testid="file-preview">Uploaded files</span>
+                  <table data-testid="uploaded_files_table"><thead><tr><th>File Name</th><th>Size</th></tr></thead><tbody><tr><td>work.py</td><td data-testid="file-size">3 KB</td><td data-testid="download-file"><a>Download</a></td></tr></tbody></table>
+                </div>
+              </div>
+              <div data-testid="student-footer" id="assignments-student-footer">
+                <a data-testid="previous-assignment-btn" data-cid="Link">Previous</a>
+                <button data-testid="new-attempt-button" data-cid="BaseButton Button">New Attempt</button>
+                <a data-testid="next-assignment-btn" data-cid="Link">Next</a>
+              </div>
+            </section>
             <div class="react_rubric_container"><div class="react-rubric"><table><tbody><tr data-testid="rubric-criterion"><th>Criteria</th><td><div class="rating-tier selected"></div></td></tr></tbody></table></div></div>
             <form><input type="text"><textarea></textarea><select><option>One</option></select><button class="Button Button--primary">Submit</button></form>
             <button data-cid="BaseButton Button">Open</button>
             <div data-cid="Spinner"><svg><circle></circle><circle></circle></svg></div>
             <div class="ic-notification ic-notification--warning"></div>
-            <div id="calendar-app"><div class="fc-view"></div></div>
-            <div class="conversations"><div class="message-list"><article class="message-item"></article></div></div>
+            <div id="calendar-app">
+              <div class="fc-view">
+                <table><thead><tr><th class="fc-widget-header">Monday</th></tr></thead><tbody><tr><td class="fc-widget-content"><span class="fc-day-number">1</span></td></tr></tbody></table>
+              </div>
+              <button class="fc-button">Today</button>
+              <a class="fc-button-link">Next</a>
+              <a class="fc-event" style="background-color: #d97706;">Lab</a>
+            </div>
+            <div class="conversations"><div class="message-list"><article class="message-item" data-testid="message-preview"><span data-cid="Text">Your instructor replied…</span><time>Today</time></article></div></div>
           </main>
         </div>
       </div>
     </div>
     <div role="dialog"><div role="menu"><button role="menuitem">Action</button></div><div role="tooltip"></div><ul class="al-options"></ul></div>
+    <div role="dialog" aria-label="Courses tray" class="navigation-tray-container courses-tray">
+      <h2 data-cid="Heading">Courses</h2><hr>
+      <a data-cid="Link" href="/courses">All Courses</a>
+      <ul><li data-cid="ListItem"><a data-cid="Link" href="/courses/260954"><div>Fall 2026 Business Analytics/Statistics 471 Section 001 Statistical Methods</div></a><div>BAS471 Section 001</div><div>Term: Fall Sem 2026</div></li></ul>
+    </div>
   </body>
 </html>

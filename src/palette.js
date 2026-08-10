@@ -17,73 +17,26 @@
     surfaceRaised: "#292929",
     text: "#f5f5f5",
     muted: "#b3b3b3",
-    border: "#454545",
+    border: "#737373",
     accent: "#8ab4f8"
-  });
-
-  const MIDNIGHT_ORANGE_PALETTE = Object.freeze({
-    background: "#0f1115",
-    surface: "#171a21",
-    surfaceRaised: "#20242d",
-    text: "#edf0f5",
-    muted: "#aeb6c2",
-    border: "#3a414d",
-    accent: "#ff9a3d"
   });
 
   const PRESET_PALETTES = Object.freeze({
     dark: DARK_PALETTE,
-    "midnight-orange": MIDNIGHT_ORANGE_PALETTE,
     "tokyo-night": Object.freeze({
       background: "#1a1b26",
       surface: "#24283b",
       surfaceRaised: "#292e42",
       text: "#c0caf5",
       muted: "#9aa5ce",
-      border: "#414868",
+      border: "#7783aa",
       accent: "#7aa2f7"
-    }),
-    dracula: Object.freeze({
-      background: "#282a36",
-      surface: "#343746",
-      surfaceRaised: "#44475a",
-      text: "#f8f8f2",
-      muted: "#b9bac8",
-      border: "#6272a4",
-      accent: "#bd93f9"
-    }),
-    nord: Object.freeze({
-      background: "#2e3440",
-      surface: "#3b4252",
-      surfaceRaised: "#434c5e",
-      text: "#eceff4",
-      muted: "#d8dee9",
-      border: "#4c566a",
-      accent: "#88c0d0"
-    }),
-    "gruvbox-dark": Object.freeze({
-      background: "#282828",
-      surface: "#32302f",
-      surfaceRaised: "#3c3836",
-      text: "#ebdbb2",
-      muted: "#bdae93",
-      border: "#665c54",
-      accent: "#fabd2f"
-    }),
-    "solarized-dark": Object.freeze({
-      background: "#002b36",
-      surface: "#073642",
-      surfaceRaised: "#0d4553",
-      text: "#eee8d5",
-      muted: "#93a1a1",
-      border: "#586e75",
-      accent: "#2aa198"
     })
   });
 
   const DEFAULT_SETTINGS = Object.freeze({
     enabled: true,
-    selectedPalette: "midnight-orange",
+    selectedPalette: "dark",
     customPalette: DARK_PALETTE,
     schoolBaseUrl: ""
   });
@@ -206,7 +159,13 @@
       ["Surface links", colors.accent, colors.surface, 4.5],
       ["Raised links", colors.accent, colors.surfaceRaised, 4.5],
       ["Accent button text", variables["--ct-accent-text"], colors.accent, 4.5],
-      ["Focus indicator", colors.accent, colors.background, 3]
+      ["Focus indicator", colors.accent, colors.background, 3],
+      ["Surface border", colors.border, colors.surface, 3],
+      ["Raised border", colors.border, colors.surfaceRaised, 3],
+      ["Accent state boundary", colors.accent, variables["--ct-accent-soft"], 3],
+      ["Danger state boundary", variables["--ct-danger"], variables["--ct-danger-soft"], 3],
+      ["Success state boundary", variables["--ct-success"], variables["--ct-success-soft"], 3],
+      ["Warning state boundary", variables["--ct-warning"], variables["--ct-warning-soft"], 3]
     ];
     return checks.map(([label, foreground, background, threshold]) => {
       const ratio = contrastRatio(foreground, background);
@@ -217,7 +176,6 @@
   const api = Object.freeze({
     COLOR_KEYS,
     DARK_PALETTE,
-    MIDNIGHT_ORANGE_PALETTE,
     PRESET_PALETTES,
     DEFAULT_SETTINGS,
     isHexColor,

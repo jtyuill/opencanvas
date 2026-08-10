@@ -9,7 +9,7 @@ test("normalizes malformed settings to safe defaults", () => {
     customPalette: { background: "red", accent: "#ABCDEF" }
   }), {
     enabled: true,
-    selectedPalette: "midnight-orange",
+    selectedPalette: "dark",
     customPalette: {
       ...palette.DARK_PALETTE,
       accent: "#abcdef"
@@ -19,7 +19,12 @@ test("normalizes malformed settings to safe defaults", () => {
 });
 
 test("rejects inherited object properties as preset names", () => {
-  assert.equal(palette.normalizeSettings({ selectedPalette: "toString" }).selectedPalette, "midnight-orange");
+  assert.equal(palette.normalizeSettings({ selectedPalette: "toString" }).selectedPalette, "dark");
+});
+
+test("exposes only the supported built-in themes", () => {
+  assert.deepEqual(Object.keys(palette.PRESET_PALETTES), ["dark", "tokyo-night"]);
+  assert.equal(palette.DEFAULT_SETTINGS.selectedPalette, "dark");
 });
 
 test("resolves custom palettes without changing the built-in palette", () => {
@@ -55,7 +60,7 @@ test("palette variables are complete CSS-safe hex colors", () => {
 });
 
 test("palette audit checks text roles and focus visibility", () => {
-  const audit = palette.auditPalette(palette.MIDNIGHT_ORANGE_PALETTE);
+  const audit = palette.auditPalette(palette.PRESET_PALETTES["tokyo-night"]);
   assert.deepEqual(audit.map((check) => check.label), [
     "Body text",
     "Surface text",
@@ -67,10 +72,28 @@ test("palette audit checks text roles and focus visibility", () => {
     "Surface links",
     "Raised links",
     "Accent button text",
-    "Focus indicator"
+    "Focus indicator",
+    "Surface border",
+    "Raised border",
+    "Accent state boundary",
+    "Danger state boundary",
+    "Success state boundary",
+    "Warning state boundary"
   ]);
   audit.forEach((check) => {
     assert.equal(check.passes, check.ratio >= check.threshold);
     assert.ok(check.threshold === 3 || check.threshold === 4.5);
+  });
+});
+
+test("every built-in preset meets the UI border contrast target", () => {
+  Object.entries(palette.PRESET_PALETTES).forEach(([name, preset]) => {
+    const audit = palette.auditPalette(preset);
+    const boundaryChecks = audit.filter((check) => check.threshold === 3);
+    assert.ok(boundaryChecks.some((check) => check.label === "Surface border"));
+    assert.ok(boundaryChecks.some((check) => check.label === "Raised border"));
+    boundaryChecks.forEach((check) => {
+      assert.equal(check.passes, true, `${name}: ${check.label} is ${check.ratio.toFixed(2)}:1`);
+    });
   });
 });

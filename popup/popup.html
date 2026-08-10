@@ -7,12 +7,17 @@
     <link rel="stylesheet" href="popup.css">
   </head>
   <body>
-    <main>
-      <header class="masthead">
-        <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
-        <div>
-          <p class="eyebrow">Canvas, your colors</p>
-          <h1>OpenCanvas</h1>
+    <main class="popup-shell">
+      <header class="app-header">
+        <div class="app-identity">
+          <span class="brand-mark" aria-hidden="true">O</span>
+          <div>
+            <h1>OpenCanvas</h1>
+            <div class="status-line" aria-live="polite">
+              <span id="status-dot" class="status-dot"></span>
+              <span id="status-text">Loading theme</span>
+            </div>
+          </div>
         </div>
         <label class="switch">
           <span class="sr-only">Enable theme</span>
@@ -21,48 +26,61 @@
         </label>
       </header>
 
-      <div class="status-line" aria-live="polite">
-        <span id="status-dot" class="status-dot"></span>
-        <span id="status-text">Loading theme</span>
-      </div>
       <p id="storage-error" class="storage-error" role="alert" hidden></p>
 
-      <section class="site-section" aria-labelledby="site-heading">
-        <div class="section-heading">
-          <div>
-            <p class="section-number">01</p>
-            <h2 id="site-heading">School</h2>
+      <div id="home-view" class="view">
+        <section class="settings-section" aria-labelledby="site-heading">
+          <div class="section-heading">
+            <h2 id="site-heading">Canvas site</h2>
           </div>
-        </div>
-        <form id="site-form">
-          <label class="site-label" for="school-url">Canvas base URL</label>
-          <div class="site-fields">
-            <input id="school-url" type="url" inputmode="url" placeholder="https://canvas.example.edu" autocomplete="url" required>
-            <button id="connect-site" class="connect-button" type="submit">Connect</button>
-          </div>
-          <p class="site-help">OpenCanvas requests access only to this site.</p>
-        </form>
-      </section>
+          <form id="site-form">
+            <label class="field-label" for="school-url">School URL</label>
+            <div class="site-fields">
+              <input id="school-url" type="url" inputmode="url" placeholder="canvas.example.edu" autocomplete="url" required>
+              <button id="connect-site" class="primary-button" type="submit">Connect</button>
+            </div>
+          </form>
+        </section>
 
-      <section class="theme-section" aria-labelledby="theme-heading">
-        <div class="section-heading">
-          <div>
-            <p class="section-number">02</p>
-            <h2 id="theme-heading">Theme</h2>
+        <section class="settings-section appearance-section" aria-labelledby="theme-heading">
+          <div class="section-heading">
+            <h2 id="theme-heading">Appearance</h2>
+            <select id="palette-select" aria-label="Color palette">
+              <option value="dark">Standard Black</option>
+              <option value="tokyo-night">Tokyo Night</option>
+              <option value="custom">Custom</option>
+            </select>
           </div>
-           <select id="palette-select" aria-label="Color palette">
-             <option value="dark">Standard Dark</option>
-             <option value="midnight-orange">Midnight Orange</option>
-             <option value="tokyo-night">Tokyo Night</option>
-             <option value="dracula">Dracula</option>
-             <option value="nord">Nord</option>
-             <option value="gruvbox-dark">Gruvbox Dark</option>
-             <option value="solarized-dark">Solarized Dark</option>
-             <option value="custom">Custom palette</option>
-           </select>
+
+          <div id="preview" class="preview" role="img" aria-label="Preview of the selected Canvas color palette">
+            <div class="preview-sidebar">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="preview-main">
+              <div class="preview-title"></div>
+              <div class="preview-card">
+                <div></div><div></div><span class="preview-button">Open</span>
+              </div>
+            </div>
+          </div>
+          <button id="edit-custom" class="secondary-button edit-custom-button" type="button" hidden>Edit colors</button>
+        </section>
+      </div>
+
+      <section id="custom-view" class="view custom-view" aria-labelledby="custom-heading" hidden>
+        <div class="editor-header">
+          <button id="back" class="back-button" type="button" aria-label="Back to appearance settings">
+            <span aria-hidden="true">←</span>
+            Back
+          </button>
+          <button id="reset" class="text-button" type="button">Reset</button>
+        </div>
+        <div class="editor-title">
+          <h2 id="custom-heading">Custom palette</h2>
+          <p>Set the colors used across Canvas.</p>
         </div>
 
-        <div id="preview" class="preview" role="img" aria-label="Palette preview showing navigation, course text, a raised card, and an accent action">
+        <div id="custom-preview" class="preview compact-preview" role="img" aria-label="Preview of the custom Canvas color palette">
           <div class="preview-sidebar">
             <span></span><span></span><span></span>
           </div>
@@ -73,18 +91,11 @@
             </div>
           </div>
         </div>
-        <p id="contrast" class="contrast" aria-live="polite"></p>
-      </section>
 
-       <section id="custom-section" aria-labelledby="custom-heading" hidden>
-        <div class="section-heading custom-heading">
-          <div>
-            <p class="section-number">03</p>
-            <h2 id="custom-heading">Custom colors</h2>
-          </div>
-          <button id="reset" class="text-button" type="button">Reset</button>
+        <div class="palette-toolbar">
+          <h3>Colors</h3>
+          <p>Use 6-digit hex values.</p>
         </div>
-
         <div id="color-grid" class="color-grid"></div>
       </section>
     </main>

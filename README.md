@@ -4,9 +4,9 @@ A dependency-free Chromium extension that adds dark mode and custom palettes to 
 
 ## Features
 
-- Seven presets: **Standard Dark**, **Midnight Orange**, **Tokyo Night**, **Dracula**, **Nord**, **Gruvbox Dark**, and **Solarized Dark**.
+- Two presets: **Standard Black** and **Tokyo Night**, plus a fully editable **Custom** palette.
 - Seven editable custom colors with live updates across open Canvas tabs.
-- Multi-role WCAG contrast feedback for text, muted text, links, buttons, and focus indicators.
+- Multi-role WCAG contrast feedback for text, muted text, links, buttons, focus indicators, borders, and semantic states.
 - Canvas-owned coverage for dashboards, course navigation, modules, assignments, discussions, pages, grades, calendar, inbox, settings, forms, dialogs, notices, loading states, and mobile navigation.
 - Conservative repair of unreadable inline text colors in instructor-authored rich content.
 - Print-safe light output and no image/video inversion.
@@ -35,7 +35,7 @@ The tests cover preset and custom palette validation, accessibility contrast, in
 
 ## Authenticated checklist
 
-After connecting your school's Canvas URL and signing in, verify these routes with **Midnight Orange**, **Tokyo Night**, and a deliberately different custom palette:
+After connecting your school's Canvas URL and signing in, verify these routes with **Standard Black**, **Tokyo Night**, and a deliberately different custom palette:
 
 - Dashboard: cards, card menus, favorite-course colors, and To Do sidebar.
 - Course home: breadcrumbs, course navigation, syllabus, and announcements.
