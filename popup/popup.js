@@ -16,6 +16,7 @@
   const enabledInput = document.querySelector("#enabled");
   const paletteSelect = document.querySelector("#palette-select");
   const colorGrid = document.querySelector("#color-grid");
+  const statusLine = document.querySelector("#status-line");
   const statusDot = document.querySelector("#status-dot");
   const statusText = document.querySelector("#status-text");
   const preview = document.querySelector("#preview");
@@ -96,14 +97,14 @@
 
   function renderStatus() {
     const messages = {
-      active: "Active on this Canvas tab",
       paused: "Theme paused on this Canvas tab",
       unavailable: "Unavailable on this tab",
       checking: "Checking active tab",
       unconfigured: "Choose your Canvas site"
     };
+    statusLine.hidden = tabStatus === "active";
     statusDot.classList.toggle("active", tabStatus === "active");
-    statusText.textContent = messages[tabStatus];
+    statusText.textContent = messages[tabStatus] || "";
   }
 
   function refreshActiveTabStatus() {

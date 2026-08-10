@@ -48,7 +48,7 @@ function loadPopup({
   schoolBaseUrl = "https://canvas.example.edu"
 } = {}) {
   const selectors = [
-    "#enabled", "#palette-select", "#color-grid", "#status-dot", "#status-text",
+    "#enabled", "#palette-select", "#color-grid", "#status-line", "#status-dot", "#status-text",
     "#preview", "#custom-preview", "#reset", "#home-view", "#custom-view", "#edit-custom",
     "#back", "#storage-error", "#site-form", "#school-url", "#connect-site"
   ];
@@ -98,10 +98,10 @@ function loadPopup({
   return { elements, storageListeners, permissionRequests };
 }
 
-test("popup reports confirmed Canvas tab state", () => {
+test("popup hides the status line when the theme is active", () => {
   const { elements } = loadPopup();
-  assert.equal(elements["#status-text"].textContent, "Active on this Canvas tab");
-  assert.equal(elements["#status-dot"].classList.values.has("active"), true);
+  assert.equal(elements["#status-line"].hidden, true);
+  assert.equal(elements["#status-text"].textContent, "");
   assert.ok(elements["#preview"].style.values["--preview-raised"]);
   assert.ok(elements["#preview"].style.values["--preview-accent-text"]);
 });
