@@ -1,6 +1,6 @@
 # OpenCanvas
 
-A free and open-source Chromium extension that makes Canvas better.
+A free and open-source browser extension that makes Canvas better. OpenCanvas supports Chrome, Edge, Brave, and Firefox.
 
 ## Features
 
@@ -8,21 +8,54 @@ A free and open-source Chromium extension that makes Canvas better.
 - Editable custom colors with live updates across open Canvas tabs.
 - Custom class card pictures.
 
-## Installation for noobs (all operating systems)
+## Install a release
 
-1. In the top right of this repository, click the green "Code" icon, then click download ZIP
-2. Extract the ZIP file somewhere
-4. *Open your Chromium based browser (Opera, Chrome, Brave, etc.), and type `chrome://extensions` in the address bar. Press Enter.
-5. Turn on **Developer mode**, a switch in the top-right corner of the page.
-6. Click **Load unpacked** (top-left). In the window that opens, find and select the `opencanvas-main` folder you just downloaded.
-7. OpenCanvas is now installed. Click its icon in the toolbar, enter your school's Canvas web address (for example `https://canvas.example.edu`), and click **Connect**.
-8. Approve access when Chrome asks, then open or refresh your Canvas site. The dark theme is on.
+Open the [latest release](https://github.com/jtyuill/opencanvas/releases/latest) and download the file for your browser.
 
-## Installation for pros
-1. Clone the repo and then load unpacked in extensions window, make sure developer mode tick is on
+### Chrome, Edge, and Brave
 
-## Troubleshooting:
+1. Download `opencanvas-<version>-chromium.zip`.
+2. Extract the ZIP to a permanent folder. Do not move or delete this folder after installation.
+3. Open your browser's extensions page:
+   - Chrome: `chrome://extensions`
+   - Edge: `edge://extensions`
+   - Brave: `brave://extensions`
+4. Enable **Developer mode**.
+5. Click **Load unpacked** and select the extracted folder that directly contains `manifest.json`.
+6. Pin OpenCanvas to the toolbar if needed, then open its popup.
+7. Enter your school's Canvas address, such as `https://canvas.example.edu`, and click **Connect**.
+8. Approve access, then open or refresh Canvas.
 
-- **"Manifest file is missing or unreadable"** — you selected the wrong folder. Pick the one that contains a file named `manifest.json`, not the one above it.
-- **Do not move or delete the `opencanvas` folder** after loading it, or the extension will stop working. If you need to move it, remove the extension, move the folder, and load it again.
-- **Updates** - if you did not clone the git repo you will have to manually redownload. Chrome store coming soont
+### Firefox
+
+1. Download `opencanvas-<version>-firefox.zip`.
+2. Open `about:debugging#/runtime/this-firefox` in Firefox.
+3. Click **Load Temporary Add-on** and select the downloaded ZIP. You can also extract it and select `manifest.json`.
+4. Open the OpenCanvas toolbar popup.
+5. Enter your school's Canvas address, such as `https://canvas.example.edu`, and click **Connect**.
+6. Approve access, then open or refresh Canvas.
+
+Firefox removes temporary add-ons when it closes. Permanent Firefox installation requires a Mozilla-signed package, which the GitHub release does not currently provide.
+
+## Install from source
+
+1. Clone the repository:
+
+   ```sh
+   git clone https://github.com/jtyuill/opencanvas.git
+   ```
+
+2. Load the repository folder:
+   - Chromium: enable Developer mode on the browser's extensions page, click **Load unpacked**, and select the repository folder.
+   - Firefox: open `about:debugging#/runtime/this-firefox`, click **Load Temporary Add-on**, and select `manifest.json`.
+
+## Updating
+
+- Release installation: download the newest browser archive, extract it, and replace the previously loaded folder. On Chromium, click **Reload** on the OpenCanvas extension card.
+- Source installation: run `git pull`, then reload the extension from the browser's extension debugging page.
+
+## Troubleshooting
+
+- **"Manifest file is missing or unreadable"** — select the folder that directly contains `manifest.json`, not its parent.
+- **OpenCanvas disappears after restarting Firefox** — temporary Firefox add-ons are removed when Firefox closes; repeat the Firefox installation steps.
+- **The theme does not appear** — open the popup, confirm the theme is enabled, reconnect the correct Canvas address, and refresh the Canvas tab.
