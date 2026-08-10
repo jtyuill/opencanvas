@@ -10,15 +10,16 @@ const fixture = fs.readFileSync(path.join(root, "tests/fixtures/canvas-surfaces.
 const popupCss = fs.readFileSync(path.join(root, "popup/popup.css"), "utf8");
 const backgroundSource = fs.readFileSync(path.join(root, "src/background.js"), "utf8");
 
-test("manifest uses optional per-school access in Firefox", () => {
+test("manifest supports Chromium and Firefox with optional per-school access", () => {
   assert.equal(manifest.manifest_version, 3);
   assert.equal(manifest.name, "OpenCanvas");
   assert.deepEqual(manifest.permissions, ["storage", "scripting"]);
   assert.equal(manifest.host_permissions, undefined);
   assert.deepEqual(manifest.optional_host_permissions, ["https://*/*"]);
   assert.equal(manifest.content_scripts, undefined);
+
+  assert.equal(manifest.background.service_worker, "src/background.js");
   assert.deepEqual(manifest.background.scripts, ["src/site.js", "src/background.js"]);
-  assert.equal(manifest.background.service_worker, undefined);
   assert.equal(manifest.browser_specific_settings.gecko.id, "opencanvas@jtyuill");
   assert.equal(manifest.browser_specific_settings.gecko.strict_min_version, "142.0");
   assert.deepEqual(
@@ -30,6 +31,7 @@ test("manifest uses optional per-school access in Firefox", () => {
 test("every file referenced by the manifest exists", () => {
   const referencedFiles = [
     manifest.action.default_popup,
+    manifest.background.service_worker,
     ...manifest.background.scripts,
     "src/theme.css",
     "src/palette.js",

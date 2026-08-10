@@ -1,5 +1,9 @@
 "use strict";
 
+if (typeof OpenCanvasSite === "undefined" && typeof importScripts === "function") {
+  importScripts("site.js");
+}
+
 const CONTENT_SCRIPT_ID = "opencanvas-theme";
 const CONTENT_SCRIPT_FILES = ["src/palette.js", "src/inline-color.js", "src/content.js", "src/card-images.js"];
 const CONTENT_STYLE_FILES = ["src/theme.css"];

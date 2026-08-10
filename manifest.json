@@ -6,7 +6,8 @@
   "permissions": ["storage", "scripting"],
   "optional_host_permissions": ["https://*/*"],
   "background": {
-    "scripts": ["src/site.js", "src/background.js"]
+    "scripts": ["src/site.js", "src/background.js"],
+    "service_worker": "src/background.js"
   },
   "action": {
     "default_title": "OpenCanvas",
