@@ -68,14 +68,35 @@
     api.COLOR_KEYS.forEach((key) => {
       const metadata = colorMetadata[key];
       const control = document.createElement("div");
+      const label = document.createElement("label");
+      const name = document.createElement("span");
+      const description = document.createElement("span");
+      const textInput = document.createElement("input");
+      const picker = document.createElement("input");
+
       control.className = "color-control";
-      control.innerHTML = `
-        <label class="color-copy" for="color-${key}">
-          <span class="color-name">${metadata.label}</span>
-          <span class="color-description">${metadata.description}</span>
-        </label>
-        <input class="color-text" type="text" value="" data-color-text="${key}" aria-label="${metadata.label} hex color" maxlength="7" spellcheck="false">
-        <input id="color-${key}" class="color-picker" type="color" data-color-key="${key}" aria-label="Choose ${metadata.label.toLowerCase()} color">`;
+      label.className = "color-copy";
+      label.htmlFor = `color-${key}`;
+      name.className = "color-name";
+      name.textContent = metadata.label;
+      description.className = "color-description";
+      description.textContent = metadata.description;
+      label.append(name, description);
+
+      textInput.className = "color-text";
+      textInput.type = "text";
+      textInput.dataset.colorText = key;
+      textInput.setAttribute("aria-label", `${metadata.label} hex color`);
+      textInput.maxLength = 7;
+      textInput.spellcheck = false;
+
+      picker.id = `color-${key}`;
+      picker.className = "color-picker";
+      picker.type = "color";
+      picker.dataset.colorKey = key;
+      picker.setAttribute("aria-label", `Choose ${metadata.label.toLowerCase()} color`);
+
+      control.append(label, textInput, picker);
       colorGrid.append(control);
     });
   }
