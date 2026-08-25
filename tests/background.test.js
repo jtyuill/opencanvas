@@ -69,7 +69,7 @@ test("background registers OpenCanvas only for the granted school origin", async
   assert.equal(response.baseUrl, "https://canvas.school.edu");
   assert.equal(harness.stored.schoolBaseUrl, "https://canvas.school.edu");
   assert.equal(harness.registration.matches[0], "https://canvas.school.edu/*");
-  assert.equal([...harness.registration.js].join(","), "src/palette.js,src/inline-color.js,src/content.js,src/card-images.js");
+  assert.equal([...harness.registration.js].join(","), "src/palette.js,src/inline-color.js,src/content.js,src/card-images.js,src/assignment-export.js");
   assert.equal([...harness.registration.css].join(","), "src/theme.css");
   assert.equal(harness.registration.runAt, "document_start");
   assert.deepEqual(harness.reloadedTabs, [7]);

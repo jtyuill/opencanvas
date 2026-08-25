@@ -65,6 +65,21 @@
           </div>
           <button id="edit-custom" class="secondary-button edit-custom-button" type="button" hidden>Edit colors</button>
         </section>
+        <section class="settings-section" aria-labelledby="transfer-heading">
+          <div class="section-heading transfer-heading">
+            <div>
+              <h2 id="transfer-heading">Settings file</h2>
+              <p>Move your theme and course images between browsers.</p>
+            </div>
+          </div>
+          <div class="transfer-actions">
+            <button id="export-settings" class="secondary-button" type="button">Export</button>
+            <button id="import-settings" class="secondary-button" type="button">Import</button>
+            <input id="import-file" type="file" accept=".json,application/json" hidden>
+          </div>
+          <p id="transfer-status" class="transfer-status" role="status" aria-live="polite"></p>
+        </section>
+
       </div>
 
       <section id="custom-view" class="view custom-view" aria-labelledby="custom-heading" hidden>
@@ -102,6 +117,8 @@
 
     <script src="../src/site.js"></script>
     <script src="../src/palette.js"></script>
+    <script src="../src/card-images.js"></script>
+    <script src="../src/settings-transfer.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>

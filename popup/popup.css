@@ -209,6 +209,17 @@ input:focus-visible,
   justify-content: space-between;
   margin-bottom: 11px;
 }
+.transfer-heading {
+  align-items: flex-start;
+}
+
+.transfer-heading p {
+  margin-top: 3px;
+  color: #8f969f;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
 
 .field-label {
   display: block;
@@ -222,6 +233,22 @@ input:focus-visible,
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 7px;
+}
+.transfer-actions {
+  display: flex;
+  gap: 7px;
+}
+
+.transfer-actions .secondary-button {
+  flex: 1;
+}
+
+.transfer-status {
+  min-height: 14px;
+  margin-top: 7px;
+  color: #72d49b;
+  font-size: 10px;
+  line-height: 1.4;
 }
 
 #school-url,

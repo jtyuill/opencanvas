@@ -17,6 +17,19 @@ test("courseIdFromHref extracts numeric course ids from card links", () => {
   assert.equal(cardImages.courseIdFromHref(""), "");
   assert.equal(cardImages.courseIdFromHref(null), "");
 });
+test("normalizeImageSource accepts HTTPS links and base64 raster images", () => {
+  assert.equal(
+    cardImages.normalizeImageSource(" https://images.example.edu/card one.png "),
+    "https://images.example.edu/card%20one.png"
+  );
+  assert.equal(
+    cardImages.normalizeImageSource("data:image/png;base64,VEVTVA=="),
+    "data:image/png;base64,VEVTVA=="
+  );
+  assert.equal(cardImages.normalizeImageSource("http://images.example.edu/card.png"), "");
+  assert.equal(cardImages.normalizeImageSource("javascript:alert(1)"), "");
+});
+
 
 test("upsertImage merges per-origin course images without mutating input", () => {
   const original = { "https://a.edu": { "1": "one" } };
@@ -199,21 +212,35 @@ function makeChrome(initialStore, options = {}) {
 }
 
 function loadCardImages(options = {}) {
-  const { pathname = "/", origin = "https://canvas.example.edu", initialStore = {}, failSet = false, build = null, withBody = true } = options;
+  const {
+    pathname = "/",
+    origin = "https://canvas.example.edu",
+    initialStore = {},
+    failSet = false,
+    build = null,
+    withBody = true,
+    promptResult = null
+  } = options;
   const document = makeDocument({ withBody });
   if (build) build(document);
+  const mutationObservers = [];
   const { chrome, listeners, state } = makeChrome({ [cardImages.STORAGE_KEY]: initialStore }, { failSet });
   const sandbox = {
     document,
     location: { pathname, origin },
     chrome,
-    MutationObserver: class { observe() {} },
+    MutationObserver: class {
+      constructor(callback) { mutationObservers.push(callback); }
+      observe() {}
+    },
+    URL,
     createImageBitmap: async () => ({ width: 100, height: 50, close() {} }),
     setTimeout,
-    clearTimeout
+    clearTimeout,
+    prompt: () => promptResult,
   };
   vm.runInNewContext(source, sandbox);
-  return { document, chrome, listeners, get stored() { return state.stored; } };
+  return { document, chrome, listeners, mutationObservers, get stored() { return state.stored; } };
 }
 
 async function flush() {
@@ -277,6 +304,24 @@ test("applies stored images to matching cards and leaves others untouched", asyn
   assert.equal(withImageActions.querySelector(".oc-card-image-remove").hidden, false);
   assert.equal(withoutImageActions.querySelector(".oc-card-image-remove").hidden, true);
 });
+test("preloads remote images and applies them immediately when cards appear", async () => {
+  const imageUrl = "https://images.example.edu/course-303.png";
+  const harness = loadCardImages({
+    initialStore: { "https://canvas.example.edu": { "303": imageUrl } }
+  });
+  await flush();
+
+  const preload = harness.document.head.children.find((element) => element.tagName === "LINK");
+  assert.ok(preload);
+  assert.equal(preload.rel, "preload");
+  assert.equal(preload.as, "image");
+  assert.equal(preload.href, imageUrl);
+
+  const card = makeCard(harness.document, { courseId: "303" });
+  harness.mutationObservers[0]();
+  assert.equal(card.surface.style.backgroundImage, `url("${imageUrl}")`);
+});
+
 
 test("sets a custom image through the file picker and persists it", async () => {
   let cards;
@@ -292,6 +337,23 @@ test("sets a custom image through the file picker and persists it", async () => 
 
   assert.equal(stored.cardImages["https://canvas.example.edu"]["202"], "data:image/jpeg;base64,TEST");
   assert.equal(cards.target.surface.style.backgroundImage, 'url("data:image/jpeg;base64,TEST")');
+  assert.equal(actions.querySelector(".oc-card-image-remove").hidden, false);
+});
+
+test("sets and persists an image from an HTTPS URL", async () => {
+  let cards;
+  const { stored } = loadCardImages({
+    promptResult: "https://images.example.edu/course 202.png",
+    build: (doc) => { cards = { target: makeCard(doc, { courseId: "202" }) }; }
+  });
+  await flush();
+
+  const actions = cards.target.card.querySelector(".oc-card-image-actions");
+  click(actions, actions.querySelector(".oc-card-image-link"));
+
+  const imageUrl = "https://images.example.edu/course%20202.png";
+  assert.equal(stored.cardImages["https://canvas.example.edu"]["202"], imageUrl);
+  assert.equal(cards.target.surface.style.backgroundImage, `url("${imageUrl}")`);
   assert.equal(actions.querySelector(".oc-card-image-remove").hidden, false);
 });
 

@@ -7,12 +7,26 @@
   const CARD_SELECTOR = ".ic-DashboardCard";
   const HEADER_SELECTOR = ".ic-DashboardCard__header";
   const COURSE_LINK_SELECTOR = 'a[href*="/courses/"]';
+  const BASE64_IMAGE_PATTERN = /^data:image\/(?:avif|gif|jpeg|png|webp);base64,(?:[a-z0-9+/]{4})*(?:[a-z0-9+/]{2}==|[a-z0-9+/]{3}=)?$/i;
 
   function courseIdFromHref(href) {
     if (typeof href !== "string") return "";
     const match = href.match(/\/courses\/(\d+)/);
     return match ? match[1] : "";
   }
+  function normalizeImageSource(value) {
+    if (typeof value !== "string") return "";
+    const candidate = value.trim();
+    if (BASE64_IMAGE_PATTERN.test(candidate)) return candidate;
+    try {
+      const url = new URL(candidate);
+      if (url.protocol !== "https:" || url.username || url.password) return "";
+      return url.href;
+    } catch {
+      return "";
+    }
+  }
+
 
   function upsertImage(store, origin, courseId, dataUrl) {
     const next = { ...store };
@@ -47,11 +61,13 @@
   const api = Object.freeze({
     STORAGE_KEY,
     courseIdFromHref,
+    normalizeImageSource,
     upsertImage,
     removeImage,
     imageTargetForCard,
     cardCourseId
   });
+  root.OpenCanvasCardImages = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 
   // --- Page-scoped behavior (skipped when loaded under Node for tests) ---
@@ -63,7 +79,7 @@
   const origin = location.origin;
 
   let store = {};
-  let scanTimer = null;
+  const preloadedImageUrls = new Set();
   let toastTimer = null;
   let started = false;
 
@@ -71,10 +87,27 @@
     const byOrigin = store[origin];
     return byOrigin ? byOrigin[courseId] : "";
   }
+  function preloadRemoteImages() {
+    if (!document.head) return;
+    const courses = store[origin] || {};
+    Object.values(courses).forEach((imageUrl) => {
+      if (typeof imageUrl !== "string"
+        || !imageUrl.startsWith("https://")
+        || preloadedImageUrls.has(imageUrl)) return;
+      const preload = document.createElement("link");
+      preload.rel = "preload";
+      preload.as = "image";
+      preload.href = imageUrl;
+      document.head.appendChild(preload);
+      preloadedImageUrls.add(imageUrl);
+    });
+  }
+
 
   function loadStore(callback) {
     chrome.storage.local.get({ [STORAGE_KEY]: {} }, (value) => {
       store = (!chrome.runtime.lastError && value && value[STORAGE_KEY]) || {};
+      preloadRemoteImages();
       callback();
     });
   }
@@ -125,22 +158,29 @@
       const setButton = document.createElement("button");
       setButton.type = "button";
       setButton.className = "oc-card-image-btn oc-card-image-set";
-      setButton.title = "Set custom image for this course";
-      setButton.setAttribute("aria-label", "Set custom image for this course");
+      setButton.title = "Upload custom image";
+      setButton.setAttribute("aria-label", "Upload custom image for this course");
       setButton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>';
+      const linkButton = document.createElement("button");
+      linkButton.type = "button";
+      linkButton.className = "oc-card-image-btn oc-card-image-link";
+      linkButton.title = "Use image URL";
+      linkButton.setAttribute("aria-label", "Set image from URL for this course");
+      linkButton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.1.1l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1"/><path d="M14 11a5 5 0 0 0-7.1-.1l-2 2a5 5 0 0 0 7.1 7.1l1.1-1.1"/></svg>';
       const removeButton = document.createElement("button");
       removeButton.type = "button";
       removeButton.className = "oc-card-image-btn oc-card-image-remove";
       removeButton.title = "Remove custom image";
       removeButton.setAttribute("aria-label", "Remove custom image");
       removeButton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
-      actions.append(setButton, removeButton);
+      actions.append(setButton, linkButton, removeButton);
       actions.addEventListener("click", (event) => {
         event.preventDefault();
         event.stopPropagation();
         const button = event.target.closest("button");
         if (!button) return;
         if (button.classList.contains("oc-card-image-set")) openFilePicker(courseId);
+        else if (button.classList.contains("oc-card-image-link")) openUrlPrompt(courseId);
         else if (button.classList.contains("oc-card-image-remove")) removeCourseImage(courseId);
       });
       header.appendChild(actions);
@@ -166,6 +206,7 @@
   function setCourseImage(courseId, dataUrl) {
     const previous = imageForCourse(courseId);
     store = upsertImage(store, origin, courseId, dataUrl);
+    preloadRemoteImages();
     applyToAllCards();
     persistStore((current) => {
       const without = removeImage(current, origin, courseId);
@@ -180,6 +221,23 @@
     applyToAllCards();
     persistStore((current) => upsertImage(current, origin, courseId, previous),
       "Could not save the change. Your storage quota may be full.");
+  }
+
+  function openUrlPrompt(courseId) {
+    if (typeof root.prompt !== "function") {
+      showToast("Image URL entry is unavailable.");
+      return;
+    }
+    const current = imageForCourse(courseId);
+    const initialValue = current.startsWith("https://") ? current : "";
+    const candidate = root.prompt("Enter an HTTPS image URL:", initialValue);
+    if (candidate === null) return;
+    const imageUrl = normalizeImageSource(candidate);
+    if (!imageUrl || !imageUrl.startsWith("https://")) {
+      showToast("Enter a valid HTTPS image URL.");
+      return;
+    }
+    setCourseImage(courseId, imageUrl);
   }
 
   async function processFile(file) {
@@ -226,10 +284,7 @@
   }
 
   function observeCards() {
-    const observer = new MutationObserver(() => {
-      clearTimeout(scanTimer);
-      scanTimer = setTimeout(applyToAllCards, 150);
-    });
+    const observer = new MutationObserver(applyToAllCards);
     observer.observe(document.body, { childList: true, subtree: true });
   }
 
@@ -242,6 +297,7 @@
     chrome.storage.onChanged.addListener((changes, areaName) => {
       if (areaName !== "local" || !changes[STORAGE_KEY]) return;
       store = changes[STORAGE_KEY].newValue || {};
+      preloadRemoteImages();
       applyToAllCards();
     });
     observeCards();

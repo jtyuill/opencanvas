@@ -5,6 +5,8 @@ const path = require("node:path");
 const vm = require("node:vm");
 const palette = require("../src/palette.js");
 const site = require("../src/site.js");
+const cardImages = require("../src/card-images.js");
+const transfer = require("../src/settings-transfer.js");
 
 const popupSource = fs.readFileSync(path.join(__dirname, "../popup/popup.js"), "utf8");
 const popupHtml = fs.readFileSync(path.join(__dirname, "../popup/popup.html"), "utf8");
@@ -35,9 +37,15 @@ class FakeElement {
   }
 
   addEventListener(type, listener) { this.listeners[type] = listener; }
-  append() {}
+  append(child) { this.child = child; }
+  appendChild(child) { this.child = child; return child; }
   setAttribute(name, value) { this.attributes[name] = value; }
   querySelectorAll() { return []; }
+  click() {
+    this.clicked = true;
+    if (this.listeners.click) this.listeners.click({ target: this });
+  }
+  remove() {}
 }
 
 function loadPopup({
@@ -50,12 +58,15 @@ function loadPopup({
   const selectors = [
     "#enabled", "#palette-select", "#color-grid", "#status-line", "#status-dot", "#status-text",
     "#preview", "#custom-preview", "#reset", "#home-view", "#custom-view", "#edit-custom",
-    "#back", "#storage-error", "#site-form", "#school-url", "#connect-site"
+    "#back", "#storage-error", "#site-form", "#school-url", "#connect-site",
+    "#export-settings", "#import-settings", "#import-file", "#transfer-status"
   ];
   const elements = Object.fromEntries(selectors.map((selector) => [selector, new FakeElement()]));
   const storageListeners = [];
   const permissionRequests = [];
   let lastError = null;
+  const syncStored = { schoolBaseUrl };
+  const localStored = {};
   const chrome = {
     runtime: {
       get lastError() { return lastError; },
@@ -65,13 +76,21 @@ function loadPopup({
       sync: {
         get(defaults, callback) {
           lastError = loadError ? { message: "load failed" } : null;
-          callback({ ...defaults, schoolBaseUrl });
+          callback({ ...defaults, ...syncStored });
           lastError = null;
         },
         set(changes, callback) {
           lastError = saveError ? { message: "save failed" } : null;
+          if (!lastError) Object.assign(syncStored, changes);
           callback();
           lastError = null;
+        }
+      },
+      local: {
+        get(defaults, callback) { callback({ ...defaults, ...localStored }); },
+        set(changes, callback) {
+          Object.assign(localStored, changes);
+          callback();
         }
       },
       onChanged: {
@@ -90,13 +109,25 @@ function loadPopup({
     }
   };
   const document = {
+    body: new FakeElement(),
     querySelector(selector) { return elements[selector]; },
     createElement() { return new FakeElement(); }
   };
 
-  vm.runInNewContext(popupSource, { CanvasPalette: palette, OpenCanvasSite: site, chrome, document });
-  return { elements, storageListeners, permissionRequests };
+  vm.runInNewContext(popupSource, {
+    CanvasPalette: palette,
+    OpenCanvasSite: site,
+    OpenCanvasCardImages: cardImages,
+    OpenCanvasSettingsTransfer: transfer,
+    chrome,
+    document
+  });
+  return { elements, storageListeners, permissionRequests, syncStored, localStored };
 }
+async function flush() {
+  await new Promise((resolve) => setTimeout(resolve, 0));
+}
+
 
 test("popup hides the status line when the theme is active", () => {
   const { elements } = loadPopup();
@@ -157,4 +188,31 @@ test("popup announces storage load and save failures", () => {
   saveHarness.elements["#enabled"].listeners.change();
   assert.equal(saveHarness.elements["#enabled"].checked, true);
   assert.match(saveHarness.elements["#storage-error"].textContent, /Could not save/);
+});
+
+test("popup imports theme settings and course images from a file", async () => {
+  const harness = loadPopup({ schoolBaseUrl: "" });
+  const importedSettings = {
+    ...palette.DEFAULT_SETTINGS,
+    enabled: false,
+    schoolBaseUrl: "https://canvas.school.edu"
+  };
+  const importedImages = {
+    "https://canvas.school.edu": {
+      "42": "https://images.example.edu/course.png"
+    }
+  };
+  const file = {
+    size: 1024,
+    text: async () => transfer.serializeSettingsFile(importedSettings, importedImages)
+  };
+
+  harness.elements["#import-file"].files = [file];
+  harness.elements["#import-file"].listeners.change();
+  await flush();
+
+  assert.equal(harness.syncStored.enabled, false);
+  assert.equal(harness.syncStored.schoolBaseUrl, "https://canvas.school.edu");
+  assert.deepEqual(harness.localStored.cardImages, importedImages);
+  assert.equal(harness.elements["#transfer-status"].textContent, "Settings imported.");
 });

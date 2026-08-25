@@ -5,7 +5,9 @@ A free and open-source browser extension that makes Canvas better. OpenCanvas su
 
 - Two presets: **Standard Black** and **Tokyo Night**, plus a fully editable **Custom** palette.
 - Editable custom colors with live updates across open Canvas tabs.
-- Custom class card pictures.
+- Custom course card pictures from uploaded images or HTTPS image URLs.
+- Portable JSON settings files for importing and exporting themes, site settings, and course images.
+- An **Export to Markdown** button on each assignment page for saving a self-contained Markdown file with its images embedded.
 
 ## Install a release
 

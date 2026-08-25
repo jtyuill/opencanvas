@@ -3,6 +3,8 @@
 
   const api = globalThis.CanvasPalette;
   const siteApi = globalThis.OpenCanvasSite;
+  const cardImagesApi = globalThis.OpenCanvasCardImages;
+  const transferApi = globalThis.OpenCanvasSettingsTransfer;
   const colorMetadata = {
     background: { label: "Page", description: "Main Canvas background" },
     surface: { label: "Surface", description: "Navigation and panels" },
@@ -30,6 +32,10 @@
   const siteForm = document.querySelector("#site-form");
   const schoolInput = document.querySelector("#school-url");
   const connectButton = document.querySelector("#connect-site");
+  const exportButton = document.querySelector("#export-settings");
+  const importButton = document.querySelector("#import-settings");
+  const importFileInput = document.querySelector("#import-file");
+  const transferStatus = document.querySelector("#transfer-status");
   let settings = api.normalizeSettings(api.DEFAULT_SETTINGS);
   let persistedSettings = settings;
   let tabStatus = "checking";
@@ -63,6 +69,112 @@
     storageError.textContent = "";
     storageError.hidden = true;
   }
+  function setTransferStatus(message) {
+    transferStatus.textContent = message;
+  }
+
+  function storageGet(area, defaults) {
+    return new Promise((resolve, reject) => {
+      area.get(defaults, (stored) => {
+        if (chrome.runtime.lastError) {
+          reject(new Error(chrome.runtime.lastError.message || "Could not read extension storage."));
+          return;
+        }
+        resolve(stored);
+      });
+    });
+  }
+
+  function storageSet(area, values) {
+    return new Promise((resolve, reject) => {
+      area.set(values, () => {
+        if (chrome.runtime.lastError) {
+          reject(new Error(chrome.runtime.lastError.message || "Could not write extension storage."));
+          return;
+        }
+        resolve();
+      });
+    });
+  }
+
+  function connectImportedSchool(baseUrl) {
+    if (!baseUrl) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      const pattern = siteApi.originPattern(baseUrl);
+      chrome.permissions.request({ origins: [pattern] }, (granted) => {
+        if (chrome.runtime.lastError || !granted) {
+          reject(new Error("OpenCanvas needs access to the imported Canvas site."));
+          return;
+        }
+        chrome.runtime.sendMessage({ type: "opencanvas:set-school", baseUrl }, (response) => {
+          if (chrome.runtime.lastError || !response || !response.ok) {
+            reject(new Error(response && response.error ? response.error : "Could not connect to the imported Canvas site."));
+            return;
+          }
+          resolve();
+        });
+      });
+    });
+  }
+
+  function downloadSettingsFile(contents) {
+    const blob = new Blob([contents], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "opencanvas-settings.json";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  async function exportSettings() {
+    clearStorageError();
+    setTransferStatus("");
+    exportButton.disabled = true;
+    try {
+      const stored = await storageGet(chrome.storage.local, { [cardImagesApi.STORAGE_KEY]: {} });
+      const contents = transferApi.serializeSettingsFile(
+        persistedSettings,
+        stored[cardImagesApi.STORAGE_KEY]
+      );
+      downloadSettingsFile(contents);
+      setTransferStatus("Settings exported.");
+    } catch {
+      showStorageError("Could not export settings. Please try again.");
+    } finally {
+      exportButton.disabled = false;
+    }
+  }
+
+  async function importSettingsFile(file) {
+    clearStorageError();
+    setTransferStatus("");
+    importButton.disabled = true;
+    try {
+      if (file.size > transferApi.MAX_FILE_BYTES) {
+        throw new Error("The settings file is larger than 10 MB.");
+      }
+      const imported = transferApi.parseSettingsFile(await file.text());
+      await connectImportedSchool(imported.settings.schoolBaseUrl);
+      await Promise.all([
+        storageSet(chrome.storage.sync, imported.settings),
+        storageSet(chrome.storage.local, { [cardImagesApi.STORAGE_KEY]: imported.images })
+      ]);
+      settings = imported.settings;
+      persistedSettings = settings;
+      activeView = "home";
+      render();
+      refreshActiveTabStatus();
+      setTransferStatus("Settings imported.");
+    } catch (error) {
+      showStorageError(error instanceof Error ? error.message : "Could not import settings.");
+    } finally {
+      importButton.disabled = false;
+    }
+  }
+
 
   function createColorControls() {
     api.COLOR_KEYS.forEach((key) => {
@@ -227,6 +339,16 @@
     }
     const customPalette = { ...settings.customPalette, [textInput.dataset.colorText]: normalized };
     save({ customPalette, selectedPalette: "custom" });
+  });
+
+  exportButton.addEventListener("click", exportSettings);
+
+  importButton.addEventListener("click", () => importFileInput.click());
+
+  importFileInput.addEventListener("change", () => {
+    const file = importFileInput.files && importFileInput.files[0];
+    importFileInput.value = "";
+    if (file) importSettingsFile(file);
   });
 
   resetButton.addEventListener("click", () => {
